@@ -1,0 +1,114 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">사용자 현황</h1>
+			</div>
+			<div class="panel-body">
+				<div class="control-group form-group">
+					<div class="controls">
+						<form novalidate="novalidate" class="form-horizontal">
+							<div class="control-group form-group">
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputComId">소속회사* :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<select ng-model="user.comId" ng-options="com.comId as com.comName for com in coms" class="form-control">
+							    		<option value="">--회사--</option>
+							    	</select>
+								</div>
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputWorkField">업무분야* :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<select ng-model="user.workField" ng-options="work.detailCode as work.codeName for work in works" class="form-control">
+							    		<option value="">--업무분야--</option>
+							    	</select>
+								</div>
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputPass">권한등급* :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<select ng-model="user.userAuth" ng-options="auth.detailCode as auth.codeName for auth in auths" class="form-control">
+							    		<option value="">--권한--</option>
+							    	</select>									
+								</div>
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputName">이름* :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputName" class="form-control"  ng-model="user.userName" placeholder="USERNAME"/>
+								</div>
+							</div>
+							<div class="control-group form-group">								
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputPhone">전화번호 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputPhone" class="form-control" ng-model="user.phone" placeholder="PHONE ('-' 포함)"/> 
+								</div>
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputTwitt">TWITT ID :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputTwitt" class="form-control" ng-model="user.twitt" placeholder="TWITT ID @ 포함"/>
+								</div>	
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputEmail">E-mail* :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputEmail" class="form-control" ng-model="user.email" placeholder="E-MAIL"/>
+								</div>					
+							</div>
+
+							<div class="control-group form-group">		
+								<div class="controls col-sm-offset-2  col-sm-7 col-xs-2">	
+								</div>							
+								<div class="controls  col-sm-3 col-xs-16" align="right">
+									<a ng-click="cancel()" class="btn btn-small btn-warning">cancel</a>
+									<a ng-click="createUser()" ng-if="!user.id" class="btn btn-small btn-primary">create user</a>
+									<a ng-click="updateUser(user.id)" ng-if="user.id" class="btn btn-small btn-primary">update user</a>	
+								</div>	
+							</div>									
+						</form>
+					</div>
+					<hr>
+					<hr>
+					<div class="panel-body " >
+						<div >
+							<ul class=" pull-left">
+								Search: <input ng-model="qq" style="width:30;">								
+								<select ng-model="pageSize" id="pageSize">
+							        <option value="5">5</option>
+							        <option value="10">10</option>				        
+							        <option value="20">20</option>
+							        <option value="50">50</option>
+							        <option value="100">100</option>
+							     </select>
+							</ul>
+							<ul class=" pull-right">
+								<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" type="button" class="btn btn-xs btn-info"> PREV </button>
+			    				{{currentPage+1}}/{{numberOfPages()}}
+			    				<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1" type="button" class="btn btn-xs btn-danger"> NEXT </button>		
+							</ul>						
+						</div>	
+					</div>		
+				</div>	
+				<div class="panel-body " >
+			        <div class="col-sm-3 col-xs-4 column" ng-repeat="user in users  | filter:qq | orderBy:id | startFrom:currentPage*pageSize | limitTo:pageSize" align='right'>		        	
+			            <div class="header {{'user'+user.userAuth}}">
+			                <h2>
+			                	<a ng-click="editUser(user.id)" class="btn btn-xs btn-success">{{ user.userName }}</a>
+			                	<span>{{ user.userId }}</span> 
+			                </h2> 
+			            </div>
+			            <div class="instance clearfix " >
+			                <div class="right pph">
+			                    <ul>
+			                    	<li>{{user.email}}</li>
+			                    	<li><span>이력 :</span><a ng-click="location.path('/history-make/'+user.id)" class="btn btn-xs btn-primary">MOVE</a></li>
+			                    	<li><span>권한 :</span>{{ user.authMsg }}</li>	
+			                    	<li><span>회사명 :</span>{{user.comName}}</li>
+			                    	<li><span>분야 :</span>{{user.workMsg}}</li>			                    		                       
+			                        <li><span>모바일 :</span>{{user.phone}}</li>
+			                        <li><span>트윗 :</span>{{user.twitt}}</li>			                        
+			                       			                        
+			                        <a ng-click="editUser(user.id)" class="btn btn-xs btn-primary">수정</a>
+									<a ng-click="deleteUser(user.id)" class="btn btn-xs btn-danger">삭제</a>
+								</ul>
+			                </div>
+			            </div>
+			            <br>
+			        </div>    			    	
+        		</div>
+     		</div>					
+		</div>	
+	</div>	
+</div>	
+				

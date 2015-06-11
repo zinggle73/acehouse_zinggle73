@@ -1,0 +1,48 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">주택관리 TOTAL 공실현황</h1>
+			</div>
+			<div class="panel-body">				
+				<div >
+					<table ng-table  class="table table-striped table-bordered table-hover table-condensed">
+						<thead>
+							<tr class="active" >
+								<th class="text-center" >주택관리</th>
+								<th class="text-center" >건물명</th>								
+								<th class="text-center" >건물주소</th>
+								<th class="text-center" >호실</th>
+								<th class="text-center" >주거형태</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat-start="company in companys  | orderBy:'comName'" >
+								<td class="success text-right collapsible-row" ng-click="company.collapseRows = !company.collapseRows"  >
+									{{ company.comName }}
+									<span ng-class="{'caret':!company.collapseRows, 'right-caret':company.collapseRows}"></span>
+								</td>
+								<td  colspan="4" class="success text-left"></td>
+							</tr>	
+							<tr ng-repeat-start="house in company.houses  | orderBy:husName" ng-hide="!company.collapseRows" >
+								<td colspan="2" class="danger text-right collapsible-row"  ng-click="house.collapseRows = !house.collapseRows">
+									{{ house.husName }}	 (<a ng-if="house.zeroNum">{{house.zeroNum}}</a><a ng-if="!house.zeroNum">0</a>)			
+									<span ng-class="{'caret':!house.collapseRows, 'right-caret':house.collapseRows}"></span>					
+								</td>
+								<td colspan="3" class="danger text-left" >{{ house.localKo +" "+ house.address }}</td>
+							</tr>
+							<tr ng-repeat-end ng-repeat="room in house.rooms | orderBy:roomNum" ng-hide="!house.collapseRows || !company.collapseRows">	
+								<td class="text-center info" rowspan="{{house.rooms.length}}" colspan="3" ng-if="$first" ></td>
+								<td class="text-center info"><a class="btn btn-xs btn-primary">{{ room.roomNum }}</a></td>
+								<td class="text-center info">{{ room.livingMsg }}</td>
+							</tr>
+							<tr ng-repeat-end></tr>
+						</tbody>					
+					</table>
+				</div>	
+			</div>
+		</div>	
+	</div>
+</div>
+
+

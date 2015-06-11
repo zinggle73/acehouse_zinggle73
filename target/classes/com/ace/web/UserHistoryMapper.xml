@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ace.web.persistence.UserHistoryMapper">
+
+	<resultMap id="UserHistoryMap" type="UserHistory">
+		<id property="id" column="id" />
+		<result property="comId" column="comId" />
+		<result property="userId" column="userId" />		
+		<result property="connCount" column="connCount" />
+		<result property="lastLoginDate" column="lastLoginDate" />
+		<result property="nowLoginDate" column="nowLoginDate" />
+		<result property="logoutDate" column="logoutDate" />		
+	</resultMap>
+	
+
+	<select id="getList" parameterType="UserHistory" resultMap="UserHistoryMap">
+		select
+		id
+		,comId
+		,userId		
+		,connCount
+		,lastLoginDate
+		,nowLoginDate
+		,logoutDate
+		from
+		userHistory
+		where
+		userId = #{userId}
+		order by connCount desc
+	</select>
+	
+	
+	<select id="getItem" parameterType="java.util.HashMap" resultMap="UserHistoryMap">
+		select
+		id
+		,comId
+		,userId		
+		,connCount
+		,lastLoginDate
+		,nowLoginDate
+		,logoutDate
+		from
+		userHistory
+		where
+		id = #{id}	
+	</select>
+	
+	
+	<insert id="insert" parameterType="UserHistory">
+		insert into userHistory
+		(
+			comId
+			,userId			
+			,connCount
+			,lastLoginDate
+			,nowLoginDate
+			,logoutDate
+		)
+		values
+		(
+			#{comId}
+			,#{userId}			
+			,#{connCount}
+			,#{lastLoginDate}
+			,#{nowLoginDate}	
+			,#{logoutDate}			
+		)
+	</insert>
+
+
+	<update id="update" parameterType="UserHistory">
+		update userHistory SET
+		<if test="id > 0">
+			id = #{id}
+		</if>
+		<if test="comId !=null">
+			,comId = #{comId}
+		</if>
+		<if test="userId !=null">
+			,userId = #{userId}
+		</if>		
+		<if test="connCount > 0">
+			,connCount = #{connCount}
+		</if>
+		<if test="lastLoginDate !=null">
+			,lastLoginDate = #{lastLoginDate}
+		</if>
+		<if test="nowLoginDate !=null">
+			,nowLoginDate = #{nowLoginDate}
+		</if>
+		<if test="logoutDate !=null">
+			,logoutDate = #{logoutDate}
+		</if>
+		where
+		id = #{id}
+	</update>
+
+
+</mapper>

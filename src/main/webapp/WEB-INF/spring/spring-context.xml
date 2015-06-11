@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+		
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<context:component-scan base-package="com.ace.web.controller" />
+	<mvc:annotation-driven />
+	<mvc:default-servlet-handler/>
+	
+	<!-- Set intercepter for logging 
+	<mvc:interceptors>
+		<bean class="com.service.common.interceptor.Interceptor" />
+	</mvc:interceptors>
+ 
+    -->
+    
+		<!-- Error page resolver -->
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.dao.DataAccessException">error/500</prop>
+			</props>
+		</property>
+		<property name="defaultErrorView" value="error/500" />
+	</bean>
+	
+	
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	
+		<!-- 	Normal web page resolver -->
+	<bean id="viewResolver"	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="contentType" value="text/html; charset=UTF-8" />
+		<property name="viewClass"	value="org.springframework.web.servlet.view.InternalResourceView" />
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+   		<property name="messageConverters">
+       		<list>
+           		<ref bean="jsonConverter" />
+       		</list>
+   		</property>
+	</bean>
+
+		
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json" />
+	</bean>
+	  
+</beans>

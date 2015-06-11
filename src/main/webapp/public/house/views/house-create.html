@@ -1,0 +1,61 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">{{currentUser.comName}} 빌라 생성</h1>
+			</div>
+			<div class="panel-body">
+				<div class="control-group form-group">
+					<div class="controls">
+						<form novalidate="novalidate" class="form-horizontal">							
+							<div class="control-group form-group">
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputHusName">건물명 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputHusName"  class="form-control" ng-model="house.husName" placeholder="HOUSE NAME" />							    	
+								</div>
+											
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputGatePass">현관문비번 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputGatePass" class="form-control"  ng-model="house.gatePass" placeholder="HOUSE GATE PASS"/>
+								</div>			
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputLocla">건물주소 :</label>								
+								<div class="controls col-sm-2">
+									<select ng-model="house.local" ng-options="local.detailCode as local.codeName for local in locals">
+							    		<option value="">--지역구--</option>
+							    	</select>								
+								</div>
+								<div class="controls col-sm-3">	
+									<input type="text" id="inputAddress" class="form-control"  ng-model="house.address" placeholder="상세주소"/>										
+								</div>
+							</div>							
+							<!--div class="control-group form-group">				
+								< label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputOwner">건물주명 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputOwner" class="form-control"  ng-model="house.owner" placeholder="HOUSE OWNER"/>
+								</div>					
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputCell">휴대전화 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputCell" class="form-control"  ng-model="house.phone" placeholder="MOBAIL NUMBER"/>
+								</div>							
+								
+							</div-->
+														
+							<div class="control-group form-group">		
+								<div class="controls col-sm-offset-2 col-sm-7">
+									<input type="hidden" id="inputHusId"  ng-model="house.husId" placeholder="HOUSE ID"  style="width:10;"/>	
+									<!-- input type="text" id="inputComId"  ng-model="house.comId" placeholder="HOUSE COM ID"  style="width:10;"/-->									
+								</div>							
+								<div class="controls  col-sm-3">
+									<a ng-click="cancel()" class="btn btn-small btn-warning">cancel</a>
+									<a ng-click="createHouse()"  class="btn btn-small btn-primary">create HOUSE</a>
+								</div>	
+							</div>							
+						</form>						
+					</div>
+				</div>					
+			</div>
+		</div>	
+	</div>
+</div>
+
+

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ace.web.persistence.CompanyMapper">
+
+	<resultMap id="CompanyMap" type="Company">
+		<id property="id" column="id" />
+		<result property="sort" column="sort" />
+		<result property="comId" column="comId" />
+		<result property="comName" column="comName" />
+		<result property="comNum" column="comNum" />
+		<result property="ceoName" column="ceoName" />
+		<result property="twitt" column="twitt" />
+		<result property="cell" column="cell" />
+		<result property="phone" column="phone" />
+		<result property="fax" column="fax" />
+		<result property="local" column="local" />
+		<result property="address" column="address" />		
+		<result property="bank" column="bank" />
+		<result property="account" column="account" />
+		<result property="accName" column="accName" />
+		<result property="registDate" column="registDate" />	
+	</resultMap>
+
+	<select id="getList" parameterType="Company" resultMap="CompanyMap">
+		select 
+		id
+		,sort
+		,comId
+		,comName
+		,comNum
+		,ceoName
+		,twitt
+		,cell
+		,phone		
+		,fax
+		,local
+		,address
+		,bank
+		,account
+		,accName
+		,registDate
+		from
+		company
+		where
+		1=1
+		<if test="sort !=null and sort !=''">
+			AND sort = #{sort}
+		</if>
+		<if test="comId !=null and comId !=''">
+			AND comId = #{comId}
+		</if>
+	</select>
+
+	
+	<select id="getItem" parameterType="java.util.HashMap" resultMap="CompanyMap">
+		select
+		id
+		,sort
+		,comId
+		,comName
+		,comNum
+		,ceoName
+		,twitt
+		,cell
+		,phone		
+		,fax
+		,local
+		,address
+		,bank
+		,account
+		,accName
+		,registDate
+		from
+		company
+		where
+		id = #{id}
+	</select>
+	
+
+	<select id="getCheckItem" parameterType="java.util.HashMap"  resultMap="CompanyMap">
+		select
+		id
+		,sort
+		,comId
+		,comName
+		,comNum
+		,ceoName
+		,twitt
+		,cell
+		,phone		
+		,fax
+		,local
+		,address
+		,bank
+		,account
+		,accName
+		,registDate
+		from
+		company
+		where
+		1=1
+		<if test="id > 0">
+			AND id = #{id}
+		</if>
+		<if test="comId !=null and comId !=''">
+			AND comId = #{comId}
+		</if>
+	</select>
+		
+		
+	<insert id="insert" parameterType="Company">
+		insert into company
+		(
+			sort
+			,comId
+			,comName
+			,comNum
+			,ceoName
+			,twitt
+			,cell
+			,phone		
+			,fax
+			,local
+			,address
+			,bank
+			,account
+			,accName
+			,registDate
+		)
+		values
+		(
+			#{sort}
+			,#{comId}
+			,#{comName}
+			,#{comNum}
+			,#{ceoName}
+			,#{twitt}
+			,#{cell}
+			,#{phone}
+			,#{fax}
+			,#{local}
+			,#{address}
+			,#{bank}
+			,#{account}
+			,#{accName}
+			,SYSDATE()
+		)
+	</insert>
+
+	<update id="update" parameterType="Company">
+		update company SET
+		<if test="id > 0">
+			id = #{id}
+		</if>
+		<if test="sort !=null">
+			,sort = #{sort}
+		</if>
+		<if test="comId !=null">
+			,comId = #{comId}
+		</if>
+		<if test="comName !=null">
+			,comName = #{comName}
+		</if>
+		<if test="comNum !=null">
+			,comNum = #{comNum}
+		</if>
+		<if test="ceoName !=null">
+			,ceoName = #{ceoName}
+		</if>
+		<if test="twitt !=null">
+			,twitt = #{twitt}
+		</if>
+		<if test="cell !=null">
+			,cell = #{cell}
+		</if>
+		<if test="phone !=null">
+			,phone = #{phone}
+		</if>
+		<if test="fax !=null">
+			,fax = #{fax}
+		</if>
+		<if test="local !=null">
+			,local = #{local}
+		</if>
+		<if test="address !=null">
+			,address = #{address}
+		</if>
+		<if test="bank !=null">
+			,bank = #{bank}
+		</if>
+		<if test="account !=null">
+			,account = #{account}
+		</if>
+		<if test="accName !=null">
+			,accName = #{accName}
+		</if>
+		where
+		id = #{id}
+	</update>
+
+	<delete id="purge" parameterType="Company">
+		DELETE
+		FROM company
+		where
+		id = #{id}
+	</delete>
+	
+	<select id="getComId" resultType="String">
+		select  
+		MAX( comId ) maxId 
+        from 
+        company
+	</select>
+
+</mapper>

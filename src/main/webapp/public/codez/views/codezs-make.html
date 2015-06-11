@@ -1,0 +1,157 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">코드생성기</h1>
+			</div>
+			<div class="panel-body">
+				<!-- div class="control-group form-group">
+					<div class="controls">
+						<form novalidate="novalidate" class="form-horizontal">
+							<div class="control-group form-group">
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputPass">상위코드 :</label>
+								<div class="controls col-sm-2">
+									<select ng-model="codez.groupCode" ng-options="code.detailCode as code.detailCode for code in codes">
+							    		<option value="">00000</option>
+							    	</select>
+								</div>
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputPass">하위코드 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputDetailCode" class="form-control"  ng-model="codez.detailCode" placeholder="DETAIL CODE"/>
+								</div>
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputPass">코드명 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputCodeName" class="form-control"  ng-model="codez.codeName" placeholder="CODE NAME"/>
+								</div>
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputEmail">사용여부 :</label>
+								<div class="controls col-sm-2">
+									<select ng-init="codez.codeOr = 'Y'" ng-model="codez.codeOr" ng-options="yn.value as yn.key for yn in yns">
+							    		<option value="">-- YN --</option>
+							    	</select>									
+								</div>		
+							</div>
+							<div class="control-group form-group">
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputEmail">코드 설명 :</label>
+								<div class="controls col-sm-6">									
+									<textarea type="text" id="inputCodeExplan" class="form-control" ng-model="codez.codeExplan" placeholder="CODE DESCRIPTION"/>
+								</div>
+								<div class="controls col-sm-2"></div>
+								<div class="controls col-sm-3">
+									<a ng-click="cancel()" class="btn btn-small btn-warning">cancel</a>
+									<a ng-click="createCodez()" ng-if="!codez.id" class="btn btn-small btn-primary">create CODE</a>
+									<a ng-click="updateCodez(codez.id)" ng-if="codez.id" class="btn btn-small btn-primary">update CODE</a>
+								</div>		
+							</div>
+						</form>						
+					</div>
+				</div>	
+				<hr>
+				<hr-->
+				<ul class=" pull-left">
+					Search: <input ng-model="qq">								
+					<select ng-model="pageSize" id="pageSize">
+				        <option value="5">5</option>
+				        <option value="10">10</option>				        
+				        <option value="20">20</option>
+				        <option value="50">50</option>
+				        <option value="100">100</option>
+				     </select>
+				</ul>
+				<ul class=" pull-right">
+					<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" type="button" class="btn btn-xs btn-info"> PREV </button>
+    				{{currentPage+1}}/{{numberOfPages()}}
+    				<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1" type="button" class="btn btn-xs btn-danger"> NEXT </button>		
+				</ul>
+				<table ng-table  class="table table-striped table-bordered table-hover table-condensed">
+					<thead>
+						<tr class="active" >
+							<th class="text-center" style="width: 120px;">
+								<a ng-show="!addMode" ng-click="toggleAddMode()" class="btn btn-xs btn-primary">+</a>	
+								<a ng-show="addMode" ng-click="toggleAddMode()" class="btn btn-xs btn-danger">-</a>	
+							</th>
+							<th class="text-center" >그룹코드</th>
+							<th class="text-center" >상세코드</th>
+							<th class="text-center" >코드명</th>
+							<th class="text-center" >코드설명</th>
+							<th class="text-center" >사용여부</th>
+							<!-- th class="text-center" >ACTION</th-->
+						</tr>
+						<tr ng-show="addMode">
+		                    <td class="success text-center">
+		                        <div >
+		                            <div class="pull-center">
+		                            	<a ng-click="createCodez()" class="btn btn-xs btn-success">저장</a>
+										<a ng-click="toggleAddMode()" class="btn btn-xs btn-danger">취소</a>	
+		                            </div>
+		                        </div>
+		                    </td>
+		                    <td class="success text-center">
+		                    	<select ng-model="codez.groupCode" ng-options="code.detailCode as code.detailCode for code in codes">
+						    		<option value="">00000</option>
+						    	</select>
+							</td>
+							<td class="success text-center">
+		                    	<input type="text" id="inputDetailCode"   ng-model="codez.detailCode" placeholder="DETAIL CODE" style="width: 80px;"/>
+							</td >
+							<td class="success text-center">
+		                    	<input type="text" id="inputCodeName"   ng-model="codez.codeName" placeholder="CODE NAME" style="width: 120px;"/>
+							</td>
+							<td class="success text-center">
+								<input type="text" id="inputCodeExplan"  ng-model="codez.codeExplan" placeholder="CODE DESCRIPTION" style="width: 500px;"/>
+		                    	
+							</td>
+		                    <td class="success text-center">
+		                    	<select ng-init="codez.codeOr = 'Y'" ng-model="codez.codeOr" ng-options="yn.value as yn.key for yn in yns">
+						    		<option value="">-- YN --</option>
+						    	</select>	
+		                    </td>
+		                    
+	                	</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="codez in codezs  | filter:qq | orderBy : ['groupCode','detailCode'] | startFrom:currentPage*pageSize | limitTo:pageSize"  >
+							<td class="success text-center" style="width: 120px;">
+		                        <div  ng-show="codez.editMode == null || codez.editMode == false">
+		                            <div >
+		                            	<a ng-click="toggleEditMode(codez)" class="btn btn-xs btn-primary">수정</a>
+										<a ng-click="deleteCodez(codez.id)" class="btn btn-xs btn-danger">삭제</a>	
+		                            </div>
+		                        </div>
+		                        <div  ng-show="codez.editMode == true">
+		                            <div >
+		                            	<a ng-click="updateCodez(codez)" class="btn btn-xs btn-success">저장</a>
+										<a ng-click="toggleEditMode(codez)" class="btn btn-xs btn-danger">취소</a>	
+		                            </div>
+		                        </div>
+		                    </td>
+							<td class="success text-center" ><a ng-click="editCodez(codez.id)" class="btn btn-xs btn-primary">{{ codez.groupCode }}</a></td>
+							<td class="danger text-center" >
+								<span ng-show="codez.editMode == null || codez.editMode == false">{{ codez.detailCode }}</span>
+	                        	<input ng-model="codez.detailCode" ng-show="codez.editMode == true" style="width: 80px;"/>
+							</td>
+							<td class="danger text-center" >
+								<span ng-show="codez.editMode == null || codez.editMode == false">{{ codez.codeName }}</span>
+	                        	<input ng-model="codez.codeName" ng-show="codez.editMode == true" style="width: 120px;"/>
+							</td>
+							<td class="danger text-center" >
+								<span ng-show="codez.editMode == null || codez.editMode == false">{{ codez.codeExplan }}</span>
+	                        	<input ng-model="codez.codeExplan" ng-show="codez.editMode == true"  style="width: 500px;"/>
+							</td>
+							<td class="danger text-center" >
+								<div ng-if="codez.codeOr == 'Y'" ng-click="orToggle(codez)" class="btn btn-xs btn-success">{{ codez.codeOr }} </div>
+								<div ng-if="codez.codeOr == 'N'" ng-click="orToggle(codez)" class="btn btn-xs btn-danger">{{ codez.codeOr }} </div>
+							</td>
+							<!-- td class="text-center info" >
+								<a ng-click="editCodez(codez.id)" class="btn btn-xs btn-primary">EDIT</a>
+								<a ng-click="deleteCodez(codez.id)" class="btn btn-xs btn-danger">DEL</a>								
+							</td-->
+						</tr>
+					</tbody>					
+				</table>	
+			</div>
+			
+		</div>	
+	</div>
+</div>
+
+

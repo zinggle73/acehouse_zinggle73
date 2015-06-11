@@ -1,0 +1,66 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">ROOM 수정</h1>
+			</div>
+			<div class="panel-body">
+				<div class="control-group form-group">
+					<div class="controls">
+						<form novalidate="novalidate" class="form-horizontal">			
+							<div class="control-group form-group">								
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputRoomNum">호실 :</label>
+								<div class="controls col-sm-4" ng-if="!room.id">
+									<textarea type="text" id="inputRoomNum" class="form-control"  ng-model="room.roomNums" placeholder="ROOM NUMBERS"/>									
+								</div>	
+								<div class="controls col-sm-2" ng-if="room.id">
+									<input type="text" id="inputRoomNum" class="form-control"  ng-model="room.roomNum" placeholder="ROOM NUMBER"/>
+								</div>	
+								<div class="controls col-sm-4" ng-if="!room.id">
+									예) 	101,102,103,104,105,106,107,108,109,<br>201,202,203,204,205,206,207,208,209,<br>301,302,303,304,305,306,307,308,309	
+								</div>	
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputLiving">주거형태 :</label>
+								<div class="controls col-sm-2">
+									<select ng-model="room.living" ng-options="code.detailCode as code.codeName for code in codes" id="inputLiving">
+						    			<option value="">--주거형태--</option>
+						    		</select>
+								</div>												
+							</div>
+							<div class="control-group form-group">								
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputBeforePass">현재 비번 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputBeforePass" class="form-control"  ng-model="room.beforePass" placeholder="ROOM BEFORE PASS"/>
+								</div>			
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputAfterPass">이후 비번 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputAfterPass" class="form-control"  ng-model="room.afterPass" placeholder="ROOM AFTER PASS"/>
+								</div>		
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputIsZero">공실현황 :</label>
+								<div class="controls col-sm-2">
+									<input id="inputIsZero" type="radio"  ng-model="room.isZero" value="N" ng-checked="room.isZero == 'N'" /> 공실&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    								<input id="inputIsZero" type="radio"  ng-model="room.isZero" value="Y" ng-checked="room.isZero == 'Y'"/> 입실    								
+								</div>						
+								<div class="controls col-sm-2">
+									<input type="hidden" id="inputHusId"  ng-model="room.husId" placeholder="HOUSE ID"  style="width:10;"/>
+								</div>		
+							</div>	
+							<div class="control-group form-group">		
+								<div class="controls col-sm-offset-2 col-sm-7">
+									
+								</div>								
+								<div class="controls  col-sm-3">
+									<a ng-click="cancel()" class="btn btn-small btn-warning">cancel</a>
+									<a ng-click="createRoom()" ng-if="!room.id" class="btn btn-small btn-primary">create ROOM</a>
+									<a ng-click="updateRoom(room.husId)" ng-if="room.id" class="btn btn-small btn-primary">update ROOM</a>			
+								</div>	
+							</div>							
+						</form>		
+					</div>				
+				</div>	
+			</div>
+			
+		</div>	
+	</div>
+</div>
+
+

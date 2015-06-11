@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ace.web.persistence.UserMapper">
+
+	<resultMap id="UserMap" type="User">
+		<id property="id" column="id" />
+		<result property="comId" column="comId" />
+		<result property="userId" column="userId" />
+		<result property="passwd" column="passwd" />
+		<result property="token" column="token" />
+		<result property="userName" column="userName" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />	
+		<result property="twitt" column="twitt" />	
+		<result property="workField" column="workField" />	
+		<result property="userAuth" column="userAuth" />
+		<result property="registDate" column="registDate" />
+		<result property="connCount" column="connCount" />
+		<result property="lastLoginDate" column="lastLoginDate" />
+		<result property="nowLoginDate" column="nowLoginDate" />
+		<result property="logoutDate" column="logoutDate" />
+	</resultMap>
+	
+
+	<select id="getList" parameterType="User" resultMap="UserMap">
+		select
+		id
+		,comId
+		,userId
+		,passwd
+		,token
+		,userName
+		,email
+		,phone
+		,twitt
+		,workField
+		,userAuth
+		,registDate
+		,connCount
+		,lastLoginDate
+		,nowLoginDate
+		,logoutDate
+		from
+		user
+		where
+		1=1
+		<if test="comId !=null and comId !=''">
+			AND comId = #{comId}
+		</if>
+		<if test="userId !=null and userId !=''">
+			AND userId = #{userId}
+		</if>
+		<if test="workField !=null and workField !=''">
+			AND workField = #{workField}
+		</if>
+		<if test="userAuth !=null and userAuth !=''">
+			AND userAuth = #{userAuth}
+		</if>
+	</select>
+	
+	<select id="getItem" parameterType="java.util.HashMap" resultMap="UserMap">
+		select
+		id
+		,comId
+		,userId
+		,passwd
+		,token
+		,userName
+		,email
+		,phone
+		,twitt
+		,workField
+		,userAuth
+		,registDate
+		,connCount
+		,lastLoginDate
+		,nowLoginDate
+		,logoutDate
+		from
+		user
+		where
+		id = #{id}	
+	</select>
+	
+	<select id="getCheckItem" parameterType="java.util.HashMap" resultMap="UserMap">
+		select
+		id
+		,comId
+		,userId
+		,passwd
+		,token
+		,userName
+		,email
+		,phone
+		,twitt
+		,workField
+		,userAuth
+		,registDate
+		,connCount
+		,lastLoginDate
+		,nowLoginDate
+		,logoutDate
+		from
+		user
+		where
+		1=1
+		<if test="id > 0">
+			AND id = #{id}
+		</if>
+		<if test="comId !=null and comId !=''">
+			AND comId = #{comId}
+		</if>
+		<if test="userId !=null and userId !=''">
+			AND userId = #{userId}
+		</if>
+		<if test="email !=null and email !=''">
+			AND email = #{email}
+		</if>
+		<if test="token !=null and token !=''">
+			AND token = #{token}
+		</if>
+		<if test="workField !=null and workField !=''">
+			AND workField = #{workField}
+		</if>
+	</select>
+	
+	
+	<insert id="insert" parameterType="User">
+		insert into user
+		(
+			comId
+			,userId
+			,passwd
+			,token
+			,userName
+			,email
+			,phone
+			,twitt
+			,workField
+			,userAuth
+			,registDate
+			,connCount
+			,lastLoginDate
+			,nowLoginDate
+			,logoutDate
+		)
+		values
+		(
+			#{comId}
+			,#{userId}
+			,#{passwd}
+			,#{token}
+			,#{userName}
+			,#{email}
+			,#{phone}
+			,#{twitt}
+			,#{workField}
+			,#{userAuth}
+			,SYSDATE()
+			,#{connCount}
+			,#{lastLoginDate}
+			,#{nowLoginDate}			
+			,#{logoutDate}
+		)
+	</insert>
+
+	<update id="update" parameterType="User">
+		update user SET
+		<if test="id > 0">
+			id = #{id}
+		</if>
+		<if test="comId !=null">
+			,comId = #{comId}
+		</if>
+		<if test="userId !=null">
+			,userId = #{userId}
+		</if>
+		<if test="passwd !=null">
+			,passwd = #{passwd}
+		</if>
+		<if test="token !=null">
+			,token = #{token}
+		</if>
+		<if test="userName !=null">
+			,userName = #{userName}
+		</if>
+		<if test="email !=null">
+			,email = #{email}
+		</if>
+		<if test="phone !=null">
+			,phone = #{phone}
+		</if>
+		<if test="twitt !=null">
+			,twitt = #{twitt}
+		</if>
+		<if test="workField !=null">
+			,workField = #{workField}
+		</if>
+		<if test="userAuth !=null">
+			,userAuth = #{userAuth}
+		</if>
+		<if test="registDate !=null">
+			,registDate = #{registDate}
+		</if>
+		<if test="connCount > 0">
+			,connCount = #{connCount}
+		</if>
+		<if test="lastLoginDate !=null">
+			,lastLoginDate = #{lastLoginDate}
+		</if>
+		<if test="nowLoginDate !=null">
+			,nowLoginDate = #{nowLoginDate}
+		</if>
+		<if test="logoutDate !=null">
+			,logoutDate = #{logoutDate}
+		</if>
+		where
+		id = #{id}
+	</update>
+
+	<delete id="purge" parameterType="User">
+		DELETE
+		FROM user
+		where
+		id = #{id}
+	</delete>
+
+</mapper>

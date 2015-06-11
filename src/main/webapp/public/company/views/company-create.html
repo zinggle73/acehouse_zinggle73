@@ -1,0 +1,119 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">주택관리 생성</h1>
+			</div>
+			<div class="panel-body">
+				<div class="control-group form-group">
+					<div class="controls">
+						<form novalidate="novalidate" class="form-horizontal">
+							<div class="control-group form-group">
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputPass">회사구분 :</label>
+								<div class="controls col-sm-2">
+									<select ng-model="company.sort" ng-options="com.detailCode as com.codeName for com in coms">
+							    		<option value="">--회사종류--</option>
+							    	</select>							    	
+								</div>
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputPass">회사명 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputComName" class="form-control"  ng-model="company.comName" placeholder="COMPANY NAME"/>
+								</div>
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputEmail">사업자번호 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputComNum" class="form-control"  ng-model="company.comNum" placeholder="COMPANY NUMBER"/>								
+								</div>			
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputPass">대표자명 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputCeoName" class="form-control"  ng-model="company.ceoName" placeholder="CEO NAME"/>
+								</div>	
+							</div>
+							<div class="control-group form-group">								
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputTWITT">TWITT ID :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputTWITT" class="form-control"  ng-model="company.twitt" placeholder="TWITT ID"/>									
+								</div>						
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputPass">휴대전화 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputCell" class="form-control"  ng-model="company.cell" placeholder="MOBAIL NUMBER"/>
+								</div>
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputEmail">대표전화 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputPhone" class="form-control"  ng-model="company.phone" placeholder="PHONE NUMBER"/>									
+								</div>			
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputPass">FAX :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputFAX" class="form-control"  ng-model="company.fax" placeholder="FAX NUMBER"/>
+								</div>
+							</div>
+							<div class="control-group form-group">								
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputEmail">지역 :</label>
+								<div class="controls col-sm-2">
+									<select ng-model="company.local" ng-options="local.detailCode as local.codeName for local in locals">
+							    		<option value="">--지역구--</option>
+							    	</select>						
+								</div>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputDetailAddr" class="form-control"  ng-model="company.address" placeholder="DETAIL ADDR"/>										
+								</div>
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputBank">계좌 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputBank" class="form-control"  ng-model="company.bank" placeholder="은행명"/>									
+								</div>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputAccount" class="form-control"  ng-model="company.account" placeholder="계좌번호"/>											
+								</div>
+								<div class="controls col-sm-2">	
+									<input type="text" id="inputAccName" class="form-control"  ng-model="company.accName" placeholder="계좌명"/>										
+								</div>
+							</div>
+							<!--div class="control-group form-group">								
+								<label class="control-label col-sm-2" for="inputLiving">계약금액(만원) :</label>		
+
+								<div class="controls col-sm-1" ng-repeat="living in livings">											
+									<input type="text" id="inputLiving" class="form-control"  ng-model="contract" placeholder={{living.codeName}} />
+								</div>
+
+								< div class="controls col-sm-2">										
+									<input type="text" id="inputLiving" class="form-control"  ng-model="official" placeholder="1룸" />
+								</div>	
+								<div class="controls col-sm-2">										
+									<input type="text" id="inputLiving" class="form-control"  ng-model="official" placeholder="1.5룸" />
+								</div>
+								<div class="controls col-sm-2">										
+									<input type="text" id="inputLiving" class="form-control"  ng-model="official" placeholder="2룸" />
+								</div>
+								<div class="controls col-sm-2">										
+									<input type="text" id="inputLiving" class="form-control"  ng-model="official" placeholder="3룸" />
+								</div>						
+							</div>
+							<div class="control-group form-group">														
+								<div class="controls col-sm-offset-2 col-sm-2">										
+									<input type="text" id="inputLiving" class="form-control"  ng-model="official" placeholder="아파트(소형)" />
+								</div>
+								<div class="controls col-sm-2">										
+									<input type="text" id="inputLiving" class="form-control"  ng-model="official" placeholder="아파트(중형)" />
+								</div>
+								<div class="controls col-sm-2">										
+									<input type="text" id="inputLiving" class="form-control"  ng-model="official" placeholder="아파트(대형)" />
+								</div>							
+							</div-->
+							<div class="control-group form-group">		
+								<div class="controls col-sm-offset-1 col-sm-7">
+									<input type="hidden" id="inputComId"  ng-model="company.comId" placeholder="COMPANY ID"  style="width:10;"/>
+								</div>							
+								<div class="controls  col-sm-4">
+									<a ng-click="cancel()" class="btn btn-small btn-warning">cancel</a>
+									<a ng-click="createCompany()" ng-if="!company.id" class="btn btn-small btn-primary">create COMPANY</a>
+									<a ng-click="updateCompany(company.id)" ng-if="company.id" class="btn btn-small btn-primary">update COMPANY</a>		
+								</div>	
+							</div>							
+						</form>						
+					</div>
+				</div>	
+			</div>			
+		</div>	
+	</div>
+</div>
+
+

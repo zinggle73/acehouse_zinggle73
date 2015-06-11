@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html ng-app="MyApp">
+	<head>
+		<base href="/">
+		<meta charset="utf-8">
+		<title>ACE HOUSING</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="/public/favicon.png" rel="icon" type="image/png">
+		<link href='http://fonts.googleapis.com/css?family=Roboto|Montserrat:400,700|Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+		<link href="//cdn.jsdelivr.net/ionicons/1.4.1/css/ionicons.min.css" rel="stylesheet">		
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<!--link href="common/stylesheets/bootstrap.min.css" rel="stylesheet" navbar-fixed-top-->
+		<link href="/public/common/stylesheets/animate.css" rel="stylesheet">
+		<link href="/public/common/stylesheets/style.css" rel="stylesheet">
+		<link href="/public/common/stylesheets/index.css" rel="stylesheet">		
+		<link href='/public/common/stylesheets/fullcalendar.min.css' rel='stylesheet' />
+		<link href='/public/common/stylesheets/fullcalendar.print.css' rel='stylesheet' media='print' />
+		<link href='/public/common/stylesheets/bulletin.css' rel='stylesheet' />
+	</head>
+	<body >
+
+		<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="MenuCtrl">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#myNavbar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">
+						<span><strong>ACE HOUSING</strong></span>
+					</a>
+				</div>
+				<nav class="collapse navbar-collapse "  id="myNavbar">
+
+					<ul class="nav navbar-nav pull-left" >
+						<li data-match-route="/" 	><a href="#/">Home</a></li>	
+						<li class="dropdown">
+					        <a class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> 회원 <b class="caret"></b></a>
+					        <ul class="dropdown-menu">
+					          	<li ng-class="{active:isActive('/user-make')}"		><a ng-click="user()"		><span class="glyphicon glyphicon-user"></span> 회원정보</a></li>
+					          	<li	 ng-class="{active:isActive('/change-pw')}" ><a ng-click="passChange()"		><span class="glyphicon glyphicon-transfer"></span> 비밀번호 교체</a></li>
+					        </ul>
+					    </li>
+						
+						<li class="dropdown">
+					        <a class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> 시스템 <b class="caret"></b></a>
+					        <ul class="dropdown-menu">
+					          	<li ng-class="{active:isActive('/codez-make')}"		><a ng-click="code()"		><span class="glyphicon glyphicon-cog"></span>공통코드</a></li>
+								<li ng-class="{active:isActive('/contract-make')}"	><a ng-click="contract()"	><span class="glyphicon glyphicon-link"></span>계약</a></li>
+					        </ul>
+					    </li>
+					    <li class="dropdown">
+					        <a class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-signal"></span> 통계 <b class="caret"></b></a>
+					        <ul class="dropdown-menu">
+					          	<li ng-class="{active:isActive('/empty-make')}"		><a ng-click="empty()"		><span class="glyphicon glyphicon-unchecked"></span> 공실현황</a></li>
+					          	<li class="divider"></li>
+					          	
+					        </ul>
+					    </li>
+						
+						<li ng-class="{active:isActive('/company-make')}"	><a ng-click="company()"	><span class="glyphicon glyphicon-home"></span> 주택관리</a></li>
+						<li ng-class="{active:isActive('/calendar-make')}"	><a ng-click="calendar()"	><span class="glyphicon glyphicon-calendar"></span> 일정관리</a></li>
+						<li ng-class="{active:isActive('/clean-make')}"	><a ng-click="clean()"	><span class="glyphicon glyphicon-trash"></span> 청소관리</a></li>
+						<li ng-class="{active:isActive('/clean-make')}"	><a ng-click=""	><span class="glyphicon glyphicon-shopping-cart"></span> SHOPPING</a></li>
+					</ul>
+					<ul class="nav navbar-nav pull-right" ng-if="!currentUser">
+						<li data-match-route="/login" ><a ng-click="location.path('/login')"><span class="glyphicon glyphicon-log-in"></span> 로그인</a></li>
+						<li data-match-route="/signup" ><a ng-click="location.path('/signup')"><span class="glyphicon glyphicon-check"></span>  가입</a></li>
+					</ul>
+					<ul class="nav navbar-nav pull-right " ng-if="currentUser">
+						<li  ><a ng-bind-template="{{currentUser.comName}} :: {{currentUser.userName}}"></a></li>
+						<li><a  ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> 로그아웃</a></li>
+					</ul>
+				</nav> 
+			</div>
+		</nav>
+		
+		<div ng-view class="{{ pageClass }}"></div>
+
+		<script src="/public/common/vendor/jquery-min.js"></script>		
+		<script src="/public/common/vendor/angular.js"></script>
+		<script src="/public/common/vendor/angular-strap.js"></script>
+		<script src="/public/common/vendor/angular-strap.tpl.js"></script>
+		<script src="/public/common/vendor/angular-messages.js"></script>
+		<script src="/public/common/vendor/angular-resource.js"></script>
+		<script src="/public/common/vendor/angular-route.js"></script>
+		<script src="/public/common/vendor/angular-animate.js"></script>	
+		<script src="/public/common/vendor/angular-datatables.js"></script>		
+		<script src="/public/common/vendor/moment.min.js"></script>
+		<script src="/public/common/vendor/bootstrap.min.js"></script>
+		<script src="/public/common/vendor/alasql.min.js"></script>
+		<script src="/public/common/vendor/xlsx.core.min.js"></script>		
+   		<script src='/public/common/vendor/fullcalendar.min.js'></script>
+   		 
+		<script src="/public/app.js"></script> 
+		<script src="/public/main/menu_controller.js"></script>
+		<script src="/public/main/main_controller.js"></script>
+		<script src="/public/auth/auth_controller.js"></script>
+		<script src="/public/auth/auth_factory.js"></script>
+		<script src="/public/auth/signup_controller.js"></script>
+		<script src="/public/common/script/common_filter.js"></script>		
+		<script src="/public/auth/from_now.js"></script>
+		<script src="/public/auth/unique_user.js"></script>
+		<script src="/public/auth/password_strength.js"></script>		
+		<script src="/public/user/user_controller.js"></script>
+		<script src="/public/user/user_factory.js"></script>
+		<script src="/public/codez/codez_controller.js"></script>
+		<script src="/public/codez/codez_factory.js"></script>
+		<script src="/public/company/company_controller.js"></script>
+		<script src="/public/company/company_factory.js"></script>
+		<script src="/public/house/house_controller.js"></script>
+		<script src="/public/house/house_factory.js"></script>
+		<script src="/public/room/room_controller.js"></script>
+		<script src="/public/room/room_factory.js"></script>
+		<script src="/public/clean/clean_controller.js"></script>
+		<script src="/public/clean/clean_factory.js"></script>
+		<script src="/public/contract/contract_controller.js"></script>
+		<script src="/public/contract/contract_factory.js"></script>
+		<script src="/public/calendar/calendar_controller.js"></script>
+		<script src="/public/calendar/calendar_factory.js"></script>
+	</body>
+</html>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ace.web.persistence.ReaderMapper">
+
+	<resultMap id="ReaderMap" type="Reader">
+		<id property="id" column="id" />
+		<result property="husId" column="husId" />
+		<result property="roomNum" column="roomNum" />
+		<result property="sort" column="sort" />
+		<result property="year" column="year" />
+		<result property="month" column="month" />		
+		<result property="value" column="value" />
+		<result property="userId" column="userId" />
+		<result property="readDate" column="readDate" />
+		<result property="msg" column="msg" />
+		<result property="m01" column="m01" />
+		<result property="m02" column="m02" />
+		<result property="m03" column="m03" />
+		<result property="m04" column="m04" />
+		<result property="m05" column="m05" />
+		<result property="m06" column="m06" />
+		<result property="m07" column="m07" />
+		<result property="m08" column="m08" />
+		<result property="m09" column="m09" />
+		<result property="m10" column="m10" />
+		<result property="m11" column="m11" />
+		<result property="m12" column="m12" />
+	</resultMap>
+	
+
+	<select id="getList" parameterType="Reader" resultMap="ReaderMap">
+		select 
+		id
+		,husId
+		,roomNum
+		,sort
+		,year
+		,month
+		,value
+		,userId
+		,readDate
+		from
+		reader
+		where
+		1=1
+		<if test="sort !=null">
+			AND sort = #{sort}
+		</if>
+		<if test="husId !=null">
+			AND husId = #{husId}
+		</if>
+		<if test="roomNum !=null">
+			AND roomNum = #{roomNum}
+		</if>
+		<if test="year > 0">
+			AND year = #{year}
+		</if>
+	</select>
+
+	<select id="getItem" parameterType="java.util.HashMap" resultMap="ReaderMap">
+		select
+		id
+		,husId
+		,roomNum
+		,sort
+		,year
+		,month
+		,value
+		,userId
+		,readDate
+		from
+		reader
+		where
+		id = #{id}		
+	</select>
+	
+	<select id="getCheckItem" parameterType="Reader" resultMap="ReaderMap">
+	<![CDATA[
+		select
+				'당월' msg,
+				max(if(month='01',value,0)) m01,
+				max(if(month='02',value,0)) m02,
+				max(if(month='03',value,0)) m03,
+				max(if(month='04',value,0)) m04,
+				max(if(month='05',value,0)) m05,
+				max(if(month='06',value,0)) m06,
+				max(if(month='07',value,0)) m07,
+				max(if(month='08',value,0)) m08,
+				max(if(month='09',value,0)) m09,
+				max(if(month='10',value,0)) m10,
+				max(if(month='11',value,0)) m11,
+				max(if(month='12',value,0)) m12
+		from reader
+		where  
+		husId = #{husId}
+		and roomNum =  #{roomNum}
+		and year =  #{year}
+		union
+		select
+				'전월' msg,
+				max(if(year=#{year}-1 && month='12',value,0)) m01,
+				max(if(month='01',value,0)) m02,
+				max(if(month='02',value,0)) m03,
+				max(if(month='03',value,0)) m04,
+				max(if(month='04',value,0)) m05,
+				max(if(month='05',value,0)) m06,
+				max(if(month='06',value,0)) m07,
+				max(if(month='07',value,0)) m08,
+				max(if(month='08',value,0)) m09,
+				max(if(month='09',value,0)) m10,
+				max(if(month='10',value,0)) m11,
+				max(if(month='11',value,0)) m12
+		from reader
+		where 
+		husId = #{husId}
+		and roomNum =  #{roomNum}
+	]]>			
+	</select>
+
+
+
+	<insert id="insert" parameterType="Reader">
+		insert into reader
+		(
+			husId
+			,roomNum
+			,sort
+			,year
+			,month
+			,value
+			,userId
+			,readDate
+		)
+		values
+		(
+			#{husId}
+			,#{roomNum}
+			,#{sort}
+			,#{year}
+			,#{month}
+			,#{value}
+			,#{userId}
+			,SYSDATE()
+		)
+	</insert>
+
+	<update id="update" parameterType="Reader">
+		update reader SET
+		<if test="id > 0">
+			id = #{id}
+		</if>
+		<if test="husId !=null">
+			,husId = #{husId}
+		</if>
+		<if test="roomNum !=null">
+			,roomNum = #{roomNum}
+		</if>
+		<if test="sort !=null">
+			,sort = #{sort}
+		</if>
+		<if test="year > 0">
+			,year = #{year}
+		</if>
+		<if test="month !=null">
+			,month = #{month}
+		</if>
+		<if test="value > 0">
+			,value = #{value}
+		</if>
+		<if test="userId !=null">
+			,userId = #{userId}
+		</if>		
+		where
+		1=1
+		<if test="id > 0">
+			AND id = #{id}
+		</if>
+		<if test="husId !=null">
+			AND husId = #{husId}
+		</if>
+		<if test="roomNum !=null">
+			AND roomNum = #{roomNum}
+		</if>
+	</update>
+
+	<delete id="purge" parameterType="Reader">
+		DELETE
+		FROM reader
+		where
+		id = #{id}
+	</delete>
+
+</mapper>

@@ -1,0 +1,105 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">빌라 생성기</h1>
+			</div>
+			<div class="panel-body">
+				<div class="control-group form-group">
+					<div class="controls">
+						<form novalidate="novalidate" class="form-horizontal">							
+							<div class="control-group form-group">
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputHusName">건물명 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputHusName"  class="form-control" ng-model="house.husName" placeholder="HOUSE NAME" "/>							    	
+								</div>
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputOwner">건물주명 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputOwner" class="form-control"  ng-model="house.owner" placeholder="HOUSE OWNER"/>
+								</div>					
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputCell">휴대전화 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputCell" class="form-control"  ng-model="house.phone" placeholder="MOBAIL NUMBER"/>
+								</div>			
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputGatePass">현관문비번 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputGatePass" class="form-control"  ng-model="house.gatePass" placeholder="HOUSE GATE PASS"/>
+								</div>			
+							</div>							
+							<div class="control-group form-group">														
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputLocla">건물주소 :</label>								
+								<div class="controls col-sm-2 col-xs-4">
+									<select ng-model="house.local" ng-options="local.detailCode as local.codeName for local in locals" class="form-control">
+							    		<option value="">--지역구--</option>
+							    	</select>								
+								</div>
+								<div class="controls col-sm-3 col-xs-6">	
+									<input type="text" id="inputAddress" class="form-control"  ng-model="house.address" placeholder="상세주소"/>										
+								</div>								
+							</div>
+														
+							<div class="control-group form-group">		
+								<div class="controls col-sm-offset-2 col-sm-7 col-xs-2">
+									<input type="hidden" id="inputHusId"  ng-model="house.husId" />	
+									<input type="hidden" id="inputComId"  ng-model="house.comId"  />								
+								</div>							
+								<div class="controls  col-sm-3 col-xs-16" align="right">
+									<a ng-click="cancel()" class="btn btn-small btn-warning">cancel</a>
+									<a ng-click="createHouse()" ng-if="!house.id" class="btn btn-small btn-primary">create HOUSE</a>
+									<a ng-click="updateHouse()" ng-if="house.id" class="btn btn-small btn-primary">update HOUSE</a>			
+								</div>	
+							</div>							
+						</form>						
+					</div>
+					<hr>
+					<hr>
+					<div >
+						<ul class=" pull-left">
+							Search: <input ng-model="qq" style="width:30;">								
+							<select ng-model="pageSize" id="pageSize">
+						        <option value="5">5</option>
+						        <option value="10">10</option>				        
+						        <option value="20">20</option>
+						        <option value="50">50</option>
+						        <option value="100">100</option>
+						     </select>
+						</ul>
+						<ul class=" pull-right">
+							<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" type="button" class="btn btn-xs btn-info"> PREV </button>
+		    				{{currentPage+1}}/{{numberOfPages()}}
+		    				<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1" type="button" class="btn btn-xs btn-danger"> NEXT </button>		
+						</ul>
+					</div>	
+				</div>				
+			</div>
+			<div class="panel-body " >
+		        <div class="col-sm-2 col-md-3 column" ng-repeat="house in houses  | filter:qq | orderBy:'husName' | startFrom:currentPage*pageSize | limitTo:pageSize" align='right'>
+		        	
+		            <div class="header {{'house'+house.local}}">
+		                <h2>{{house.husName}} <span>[{{house.localKo}}]</span></h2> 
+		            </div>
+		            <div class="instance clearfix " >
+		                <div class="right pph">
+		                    <ul>
+		                        <li><span>관리 :</span>{{house.comName}}</li>
+		                        <li><span>현관 :</span>{{house.gatePass}}</li>
+		                        <li><span>건물주 :</span>{{house.owner}}</li>
+		                        <li><span>연락처 :</span>{{house.phone}}</li>
+		                        <li><span>주 소 :</span>{{house.localKo +" "+ house.address}}</li>
+		                        
+		                        <a ng-click="location.path('/room-make/'+house.husId)" class="btn btn-xs btn-success">ROOM									
+								<span ng-if="house.zeroNum" class="btn btn-xs btn-danger">{{ house.zeroNum }}</span>
+								<span ng-if="!house.zeroNum" class="btn btn-xs btn-danger">0</span>	
+								</a>	
+								<a ng-click="editHouse(house)" class="btn btn-xs btn-primary">수정</a>		
+								<a ng-click="updateHousing(house)" class="btn btn-xs btn-danger">삭제</a>	
+		                    </ul>
+		                </div>
+		            </div>
+		            <br>
+        		</div>
+     		</div>					
+		</div>	
+	</div>	
+</div>	
+				

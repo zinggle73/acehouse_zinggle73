@@ -1,0 +1,193 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">입주청소</h1>
+			</div>
+			<div class="panel-body">
+				<div class="control-group form-group"  ng-if="clean.id">
+					<div class="controls">
+						<form novalidate="novalidate" class="form-horizontal">			
+							<div class="control-group form-group">			
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputRoomNum">주택관리 :</label>
+								<div class="controls col-sm-2 col-xs-4" >
+									<input type="hidden" id="inputComId"  class="form-control" ng-model="clean.comId" placeholder="COMPANY ID" />	
+									<input type="text" id="inputComId"  class="form-control" ng-model="clean.comName" placeholder="COMPANY ID" readOnly />							
+								</div>	
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputRoomNum">건물 :</label>
+								<div class="controls col-sm-2 col-xs-4" >
+									<input type="hidden" id="inputHusId"  class="form-control" ng-model="clean.husId" placeholder="HOUSE ID" />	
+									<input type="text" id="inputHusId"  class="form-control" ng-model="clean.husName" placeholder="HOUSE ID" readOnly />				
+								</div>						
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputRoomNum">호실 :</label>
+								<div class="controls col-sm-2 col-xs-4" >
+									<input type="text" id="inputRoomNum" class="form-control"  ng-model="clean.roomNum" placeholder="ROOM NUMBER" readOnly/>							
+								</div>	
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputPhone">발주자 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="hidden" id="inputOrdererId"  class="form-control" ng-model="clean.orderer" placeholder="ORDERER" />	
+									<input type="text" id="inputOrdererId"  class="form-control" ng-model="clean.oderName" placeholder="ORDERER" readOnly />									
+								</div>	
+							</div>	
+							<div class="control-group form-group">																											
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-success" for="inputGatepass">현관비번:</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputGatepass" class="form-control"  ng-model="clean.gatepass" placeholder="CLEAN GATEPASS"/>
+								</div>
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-success" for="inputBepass">현재비번:</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputBepass" class="form-control"  ng-model="clean.bepass" placeholder="CLEAN BEPASS"/>
+								</div>			
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-success" for="inputAfpass">이후비번 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputAfpass" class="form-control"  ng-model="clean.afpass" placeholder="CLEAN AFPASS"/>
+								</div>		
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-success" for="inputOrdererId">발주자 전화 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputPhone" class="form-control"  ng-model="clean.phone" placeholder="ORDERER PHONE"/>
+								</div>								
+							</div>	
+							<div class="control-group form-group">										
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputPay">청소금액 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputPay" class="form-control"  ng-model="clean.pay" placeholder="CLEAN PAY" readOnly/>
+								</div>	
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-success" for="inputAddPay">추가금액 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputAddPay" class="form-control"  ng-model="clean.addPay" placeholder="CLEAN ADD PAY"/>
+								</div>	
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-success" for="inputMemo">건물주소 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputAddress" class="form-control"  ng-model="clean.address" placeholder="CLEAN ADDRESS"/>
+								</div>	
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-success" for="inputLiving">주거형태 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<select ng-model="clean.living" ng-options="code.detailCode as code.codeName for code in livings"  class="form-control">
+						    			<option value="">-주거형태-</option>
+						    		</select>
+								</div>															
+							</div>
+							<div class="control-group form-group">					
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-danger" for="inputCharge">청소담당 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<select ng-model="clean.charge" ng-options="charg.userId as charg.userName for charg in chargezs"  class="form-control">
+						    			<option value="">-담당-</option>
+						    		</select>						
+								</div>													
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-danger" for="inputIsIng">진행현황 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<select ng-model="clean.isIng" ng-options="ing.detailCode as ing.codeName for ing in ings"  class="form-control">
+						    			<option value="">-진행현황-</option>
+						    		</select>						    		
+								</div>	
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-success" for="inputMemo">간단메모 :</label>
+								<div class="controls col-sm-5 col-xs-10">
+									<textarea type="text" id="inputMemo" class="form-control"  ng-model="clean.memo" placeholder="CLEAN MEMO"/>
+								</div>		
+							</div>					
+							<div class="control-group form-group">								
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputOrderDate">주문일자 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text"  id="input" class="form-control"  ng-model="clean.orderDate"  readOnly />
+								</div>			
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputHopeDate">희망일자 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text"  ng-if="hopeDate" id="inputHopeDate" class="form-control" ng-model="hopeDate"  readOnly />
+									<input type="date" ng-if="!hopeDate" id="inputHopeDate" class="form-control" ng-model="clean.hopeDate"  placeholder="yyyy/MM/dd" />
+								</div>
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-danger" for="inputConfirmDate">확정일자 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text"  ng-if="confirmDate" id="inputConfirmDate" class="form-control" ng-model="confirmDate"  readOnly />
+									<input type="date"  id="inputConfirmDate" class="form-control" ng-model="clean.confirmDate"  placeholder="yyyy/MM/dd" />
+								</div>	
+							</div>	
+							<div class="control-group form-group">		
+								<div class="controls col-sm-offset-2 col-sm-7 col-xs-2">									
+								</div>								
+								<div class="controls  col-sm-3 col-xs-16" align="right">
+									<a ng-click="cancel()" class="btn btn-small btn-warning">cancel</a>
+									<a ng-click="updateClean()" ng-if="clean.id" class="btn btn-small btn-primary">update CLEAN</a>			
+								</div>	
+							</div>							
+						</form>								
+					</div>
+					<hr>
+					<hr>		
+				</div>							
+			</div>				
+			<div class="panel-body " >
+				<div >
+					<ul class=" pull-left"> 
+						<button class="btn btn-xs btn-default"  ng-click="getExcel()"   >EXCEL</button>
+						<button class="btn btn-xs btn-danger"   ng-click="all()"   >ALL</button>
+						<button class="btn btn-xs btn-danger"   ng-click="getWhere('toDay')"   >오늘</button>
+						<button class="btn btn-xs btn-success"  ng-click="getWhere('toMonth')"   >당월</button>
+						<button class="btn btn-xs btn-warning"  ng-click="getWhere('yestMonth')"   >전월</button>
+						<button class="btn btn-xs btn-primary"  ng-click="getWhere('toYear')"   >당해년</button>
+						<button class="btn btn-xs btn-danger"  ng-click="getWhere('notPaid')"   >미입금</button>
+					</ul>
+					
+					<ul class=" pull-right">						
+						<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" type="button" class="btn btn-xs btn-info"> PREV </button>
+	    				{{currentPage+1}}/{{numberOfPages()}}
+	    				<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1" type="button" class="btn btn-xs btn-danger"> NEXT </button>		
+					</ul>
+					<ul class=" pull-right">
+						Search: <input ng-model="qq" style="width:200px;">								
+						<select ng-model="pageSize" id="pageSize">
+					        <option value="5">5</option>
+					        <option value="10">10</option>				        
+					        <option value="20">20</option>
+					        <option value="50">50</option>
+					        <option value="100">100</option>
+					     </select>
+					</ul>	
+				</div>	
+			</div>
+			<div class="panel-body " >
+		        <div class="col-sm-3 col-xs-4 column" ng-repeat="clean in cleans  | filter:qq | orderBy:['isIng','-orderDate'] | startFrom:currentPage*pageSize | limitTo:pageSize" align='right'>
+		        	
+		            <div class="header {{'clean'+clean.isIng}}">
+		                <h2>
+		                	{{clean.husName}} 
+		                	<a ng-click="editClean(clean.id)" ng-disabled="clean.isIng=='500' || clean.isIng=='501'" class="btn btn-xs btn-primary">{{clean.roomNum}}호 </a>
+		                	{{clean.livingMsg}}
+		                </h2> 
+		            </div>
+		            <div class="instance clearfix " >
+		                <div class="right pph">
+		                    <ul>
+		                    	<li>{{clean.comName}}</li>
+		                    	<li><span>진행 :</span><a class="btn btn-xs btn-success" ng-disabled="1==1">{{ clean.isIngMsg }}</a></li>
+		                        <li><span>형태 :</span>{{clean.livingMsg}}</li>		                        
+		                        <li><span>발주자 :</span>{{clean.oderName}}</li>
+		                        <li><span>담당자 :</span>{{clean.chargeName}}</li>
+		                        <li><span>G/P :</span>{{clean.gatepass}}</li>
+		                        <li><span>B/P :</span>{{clean.bepass}}</li>
+		                        <li><span>A/P :</span>{{clean.afpass}}</li>
+		                        <li><span>주 소 :</span>{{clean.address}}</li>
+		                        <li><span>확정일 :</span>{{clean.confirmDate}}</li>
+		                        <li><span>금액 :</span>
+		                        	<span  ng-if="clean.addPay > 0" cs-popover popover-html="{{clean.memo}}" popover-placement="right" popover-label="{{ clean.pay+clean.addPay | number : 0 }}" class="btn btn-xs btn-danger"></span>
+									<span  ng-if="clean.addPay <= 0" cs-popover popover-html="{{clean.memo}}" popover-placement="right" popover-label="{{ clean.pay+clean.addPay | number : 0 }}" class="btn btn-xs btn-default"></span>
+		                        </li>
+		                        <a ng-if="clean.isIng == 100" ng-click="actionIng(clean, '101')" class="btn btn-xs btn-danger" >취소</a>
+								<a ng-if="clean.isIng == 100" ng-click="actionIng(clean, '200')" class="btn btn-xs btn-primary">당당할당</a>
+								<a ng-if="clean.isIng == 101" ng-click="actionIng(clean, '501')" class="btn btn-xs btn-primary">취소처리중</a>	
+								<a ng-if="clean.isIng == 101" ng-click="actionIng(clean, '200')" class="btn btn-xs btn-primary">할당</a>
+								<a ng-if="clean.isIng == 200" ng-click="actionIng(clean, '101')" class="btn btn-xs btn-danger">취소</a>										
+								<a ng-if="clean.isIng == 200" ng-click="actionIng(clean, '300')" class="btn btn-xs btn-primary">청소완료</a>																
+								<a ng-if="clean.isIng == 300" ng-click="actionIng(clean, '400')" class="btn btn-xs btn-danger">미입금</a>
+								<a ng-if="clean.isIng == 400" ng-click="actionIng(clean, '500')" class="btn btn-xs btn-primary">입금확인중</a>
+								<a ng-if="clean.isIng == 500" class="btn btn-xs btn-success" ng-disabled="1==1">종료</a>
+								<a ng-if="clean.isIng == 501" class="btn btn-xs btn-danger" ng-disabled="1==1">취소완료</a>
+							</ul>
+		                </div>
+		            </div>
+		            <hr>
+        		</div>
+     		</div>					
+		</div>	
+	</div>	
+</div>	
+				

@@ -1,0 +1,116 @@
+
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">주택관리 계약수수료</h1>
+			</div>
+			<div class="panel-body">
+				<ul class=" pull-left">
+					Search: <input ng-model="qq">								
+					<select ng-model="pageSize" id="pageSize">
+				        <option value="5">5</option>
+				        <option value="10">10</option>				        
+				        <option value="20">20</option>
+				        <option value="50">50</option>
+				        <option value="100">100</option>
+				     </select>
+				</ul>
+				<ul class=" pull-right">
+					<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" type="button" class="btn btn-xs btn-info"> PREV </button>
+    				{{currentPage+1}}/{{numberOfPages()}}
+    				<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1" type="button" class="btn btn-xs btn-danger"> NEXT </button>		
+				</ul>
+				<table ng-table  class="table table-striped table-bordered table-hover table-condensed">
+					<thead>
+						<tr class="active" >
+							<th class="text-center" style="width: 150px;"></th>
+							<th class="text-center" >주택관리</th>
+							<th class="text-center" >해당년</th>
+							<th class="text-center" >지역</th>							
+							<th class="text-center" >주거형태</th>
+							<th class="text-center" style="width: 120px;" >금액(원)</th>							
+						</tr>
+						<tr>
+		                    <td class="success text-center">
+		                        <div >
+		                            <div class="pull-center">
+		                            	<a ng-if="!contract.id" ng-click="createContract()" class="btn btn-xs btn-success">저장</a>
+		                            	<a ng-if="contract.id" ng-click="updateContract( contract )" class="btn btn-xs btn-primary">수정</a>
+		                            	<a ng-if="contract.id" ng-click="deleteContract( contract.id )" class="btn btn-xs btn-primary">삭제</a>
+										<a ng-click="cancel()" class="btn btn-xs btn-danger">취소</a>	
+		                            </div>
+		                        </div>
+		                    </td>
+		                    <td class="success text-center">
+		                    	<select ng-model="contract.comId" ng-options="com.comId as com.comName  for com in coms">
+							    	<option value="">-- 주택관리 --</option>
+							   	</select>
+							</td>
+							<td class="success text-center">
+		                    	<select ng-model="contract.year" ng-options="year.value as year.value for year in years">
+						    		<option value="">-- 선택년도 --</option>
+						    	</select>
+							</td>
+							<td class="success text-center">
+		                    	<select ng-model="contract.local" ng-options="local.detailCode as local.codeName for local in locals">
+						    		<option value="">--지역선택--</option>
+						    	</select>
+							</td >							
+							<td class="success text-center">
+		                    	<select ng-model="contract.living" ng-options="code.detailCode as code.codeName for code in codes" id="inputLiving">
+					    			<option value="">--주거형태--</option>
+					    		</select>
+							</td>
+		                    <td class="success text-center" ><input ng-model="contract.pay" style="width: 80px;" /></td>
+		                    
+	                	</tr>
+					</thead>
+					
+					<tbody>
+						<tr ng-repeat-start="contract in contracts  | orderBy:'comId' | filter:qq | startFrom:currentPage*pageSize | limitTo:pageSize" >
+							<td class="success text-center"></td>
+							<td class="success text-right collapsible-row" ng-click="contract.collapseRows = !contract.collapseRows"  >
+								{{ contract.comName }}
+								<span ng-class="{'caret':!contract.collapseRows, 'right-caret':contract.collapseRows}"></span>
+							</td>
+							<td class="success text-center"></td>
+							<td class="success text-center"></td>
+							<td class="success text-center"></td>
+							<td class="success text-center"></td>
+						</tr>	
+						<tr ng-repeat-start="year in contract.years  | orderBy:'year'" ng-hide="!contract.collapseRows">
+							<td class="danger text-center"></td>
+							<td class="danger text-center"></td>
+							<td class="danger text-right collapsible-row" ng-click="year.collapseRows = !year.collapseRows">{{ year.year }} <span ng-class="{'caret':!year.collapseRows, 'right-caret':year.collapseRows}"></span></td>
+							<td class="danger text-center"></td>
+							<td class="danger text-center"></td>
+							<td class="danger text-center"></td>
+						</tr>
+						<tr ng-repeat-start="local in year.locals  | orderBy:'local'" ng-hide="!year.collapseRows || !contract.collapseRows">
+							<td class="info text-center"></td>
+							<td class="info  text-center"></td>
+							<td class="info text-center"></td>
+							<td class="info text-right collapsible-row" ng-click="local.collapseRows = !local.collapseRows">{{ local.localKo }} <span ng-class="{'caret':!local.collapseRows, 'right-caret':local.collapseRows}"></span></td>
+							<td class="info text-center"></td>
+							<td class="info text-center"></td>
+						</tr>
+						<tr ng-repeat-end ng-repeat="cont in local.conts  | orderBy:'living'" ng-hide="!local.collapseRows || !year.collapseRows || !contract.collapseRows">
+							<td class="warning text-center"></td>
+							<td class="warning  text-center"></td>
+							<td class="warning text-center"></td>
+							<td class="warning text-center"></td>
+							<td class="warning text-center"><a ng-click="editContract(cont.id)" class="btn btn-xs btn-primary">{{ cont.livingKo }}</a></td>
+							<td class="warning text-center"><span>{{ cont.pay | number : 0 }}</span></td>
+						</tr>
+						<tr ng-repeat-end></tr>
+						<tr ng-repeat-end></tr>
+					</tbody>							
+				</table>	
+			</div>
+			
+		</div>	
+	</div>
+</div>
+
+

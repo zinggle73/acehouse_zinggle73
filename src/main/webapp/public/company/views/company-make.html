@@ -1,0 +1,130 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">회사생성기</h1>
+			</div>
+			<div class="panel-body">
+				<div class="control-group form-group">
+					<div class="controls">
+						<form novalidate="novalidate" class="form-horizontal">
+							<div class="control-group form-group">
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputPass">회사구분 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<select ng-model="company.sort" ng-options="com.detailCode as com.codeName for com in coms" class="form-control" >
+							    		<option value="">--회사종류--</option>
+							    	</select>							    	
+								</div>
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputPass">회사명 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputComName" class="form-control"  ng-model="company.comName" placeholder="COMPANY NAME"/>
+								</div>
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputEmail">사업자번호 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputComNum" class="form-control"  ng-model="company.comNum" placeholder="COMPANY NUMBER"/>								
+								</div>			
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputPass">대표자명 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputCeoName" class="form-control"  ng-model="company.ceoName" placeholder="CEO NAME"/>
+								</div>	
+							</div>
+							<div class="control-group form-group">								
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputTWITT">TWITT ID :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputTWITT" class="form-control"  ng-model="company.twitt" placeholder="TWITT ID"/>									
+								</div>						
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputPass">휴대전화 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputCell" class="form-control"  ng-model="company.cell" placeholder="MOBAIL NUMBER"/>
+								</div>
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputEmail">대표전화 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputPhone" class="form-control"  ng-model="company.phone" placeholder="PHONE NUMBER"/>									
+								</div>			
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputPass">FAX :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputFAX" class="form-control"  ng-model="company.fax" placeholder="FAX NUMBER"/>
+								</div>
+							</div>
+							<div class="control-group form-group">								
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputEmail">지역 :</label>
+								<div class="controls col-sm-2 col-xs-4">
+									<select ng-model="company.local" ng-options="local.detailCode as local.codeName for local in locals" class="form-control">
+							    		<option value="">--지역구--</option>
+							    	</select>						
+								</div>
+								<div class="controls col-sm-2 col-xs-6">
+									<input type="text" id="inputDetailAddr" class="form-control"  ng-model="company.address" placeholder="DETAIL ADDR"/>										
+								</div>
+								<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputBank">계좌 :</label>
+								<div class="controls col-sm-2 col-xs-3">
+									<input type="text" id="inputBank" class="form-control"  ng-model="company.bank" placeholder="은행명"/>									
+								</div>
+								<div class="controls col-sm-2 col-xs-3">	
+									<input type="text" id="inputAccName" class="form-control"  ng-model="company.accName" placeholder="계좌명"/>										
+								</div>
+								<div class="controls col-sm-2 col-xs-4">
+									<input type="text" id="inputAccount" class="form-control"  ng-model="company.account" placeholder="계좌번호"/>											
+								</div>
+								
+							</div>
+							<div class="control-group form-group">		
+								<div class="controls col-sm-offset-1 col-sm-7 col-xs-2">		
+									<input type="hidden" id="inputComId"  ng-model="company.comId" placeholder="COMPANY ID"  style="width:10;"/>
+								</div>							
+								<div class="controls  col-sm-4 col-xs-16" align="right">
+									<a ng-click="cancel()" class="btn btn-small btn-warning">cancel</a>
+									<a ng-click="createCompany()" ng-if="!company.id" class="btn btn-small btn-primary">create COMPANY</a>
+									<a ng-click="updateCompany(company.id)" ng-if="company.id" class="btn btn-small btn-primary">update COMPANY</a>		
+								</div>	
+							</div>							
+						</form>						
+					</div>
+					<hr>
+					<hr>
+					<div >
+						<ul class=" pull-left">
+							Search: <input ng-model="qq" style="width:30;">								
+							<select ng-model="pageSize" id="pageSize">
+						        <option value="5">5</option>
+						        <option value="10">10</option>				        
+						        <option value="20">20</option>
+						        <option value="50">50</option>
+						        <option value="100">100</option>
+						     </select>
+						</ul>
+						<ul class=" pull-right">
+							<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" type="button" class="btn btn-xs btn-info"> PREV </button>
+		    				{{currentPage+1}}/{{numberOfPages()}}
+		    				<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1" type="button" class="btn btn-xs btn-danger"> NEXT </button>		
+						</ul>
+					</div>	
+				</div>				
+			</div>
+			<div class="panel-body ">
+		        <div class="col-sm-3 col-xs-4 column" ng-repeat="company in companys  | filter:qq | orderBy:'comName' | startFrom:currentPage*pageSize | limitTo:pageSize" align='right'>
+		        	
+		            <div class="header {{'com'+company.sort}}">
+		                <h2>{{company.comName}} <span>[{{company.sortKo}}]</span></h2> 
+		            </div>
+		            <div class="instance clearfix " >
+		                <div class="right pph">
+		                    <ul>
+		                        <li><span>대표자 :</span>{{company.ceoName}}</li>
+		                        <li><span>모바일 :</span>{{company.cell}}</li>
+		                        <li><span>사무실 :</span>{{company.phone}}</li>
+		                        <li><span>주 소 :</span>{{company.localKo +" "+ company.address}}</li>
+		                        
+		                        <a  ng-if="company.sort == '01'" ng-click="location.path('/house-make/'+company.comId)" class="btn btn-xs btn-success">HOUSE</a>
+								<a ng-click="editCompany(company.id)" class="btn btn-xs btn-primary">수정</a>		
+								<a ng-click="deleteCompany(company.id)" class="btn btn-xs btn-danger">삭제</a>	
+		                    </ul>
+		                </div>
+		            </div>
+		            <br>
+        		</div>
+     		</div>					
+		</div>	
+	</div>	
+</div>	
+					

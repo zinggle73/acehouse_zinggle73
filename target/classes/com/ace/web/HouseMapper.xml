@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ace.web.persistence.HouseMapper">
+
+	<resultMap id="HouseMap" type="House">
+		<id property="id" column="id" />
+		<result property="comId" column="comId" />
+		<result property="husId" column="husId" />
+		<result property="husName" column="husName" />
+		<result property="owner" column="owner" />
+		<result property="phone" column="phone" />		
+		<result property="local" column="local" />
+		<result property="address" column="address" />
+		<result property="gatePass" column="gatePass" />
+		<result property="isIng" column="isIng" />
+		<result property="registDate" column="registDate" />
+	</resultMap>
+
+
+	<select id="getList" parameterType="House" resultMap="HouseMap">
+		select 
+		id
+		,comId
+		,husId
+		,husName		
+		,owner
+		,phone
+		,local
+		,address
+		,gatePass
+		,isIng
+		,registDate
+		from
+		house
+		where		
+		1=1
+		<if test="isIng !=null and isIng !=''">
+			AND isIng = #{isIng}
+		</if>
+		<if test="comId !=null and comId !=''">
+			AND comId = #{comId}
+		</if>
+	</select>
+	
+	<select id="getItem" parameterType="java.util.HashMap" resultMap="HouseMap">
+		select
+		id
+		,comId
+		,husId
+		,husName		
+		,owner
+		,phone
+		,local
+		,address
+		,gatePass
+		,isIng
+		,registDate
+		from
+		house
+		where
+		id = #{id}
+		<if test="comId !=null and comId !=''">
+			AND comId = #{comId}
+		</if>
+	</select>
+	
+	<select id="getCheckItem" parameterType="java.util.HashMap" resultMap="HouseMap">
+		select
+		id
+		,comId
+		,husId
+		,husName		
+		,owner
+		,phone
+		,local
+		,address
+		,gatePass
+		,isIng
+		,registDate
+		from
+		house
+		where
+		1=1
+		<if test="id > 0">
+			AND id = #{id}
+		</if>
+		<if test="comId !=null and comId !=''">
+			AND comId = #{comId}
+		</if>
+		<if test="husId !=null and husId !=''">
+			AND husId = #{husId}
+		</if>
+	</select>
+
+
+	<insert id="insert" parameterType="House">
+		insert into house
+		(
+			comId
+			,husId
+			,husName		
+			,owner
+			,phone
+			,local
+			,address
+			,gatePass
+			,isIng
+			,registDate
+		)
+		values
+		(
+			#{comId}
+			,#{husId}
+			,#{husName}
+			,#{owner}
+			,#{phone}
+			,#{local}
+			,#{address}
+			,#{gatePass}
+			,#{isIng}
+			,SYSDATE()
+		)
+	</insert>
+
+	<update id="update" parameterType="House">
+		update house SET
+		<if test="id > 0">
+			id = #{id}
+		</if>
+		<if test="comId !=null">
+			,comId = #{comId}
+		</if>
+		<if test="husId !=null">
+			,husId = #{husId}
+		</if>
+		<if test="husName !=null">
+			,husName = #{husName}
+		</if>
+		<if test="owner !=null">
+			,owner = #{owner}
+		</if>
+		<if test="phone !=null">
+			,phone = #{phone}
+		</if>
+		<if test="local !=null">
+			,local = #{local}
+		</if>
+		<if test="address !=null">
+			,address = #{address}
+		</if>
+		<if test="gatePass !=null">
+			,gatePass = #{gatePass}
+		</if>	
+		<if test="isIng !=null">
+			,isIng = #{isIng}
+		</if>	
+		where
+		id = #{id}
+	</update>
+
+	<delete id="purge" parameterType="House">
+		DELETE
+		FROM house
+		where
+		id = #{id}
+	</delete>
+	
+	<select id="getHouseId" resultType="String">
+		select  
+		MAX( husId ) maxId 
+        from 
+        house
+	</select>
+	
+	
+	<select id="getZeroCount" parameterType="House" resultType="String">
+		select
+		ifnull(count(r.husId), '0') zeroNum
+		from 
+		room r, house hi
+		where 
+		r.husId = hi.husId
+		and hi.isIng = 'Y'
+		and r.isZero = 'N'
+		and hi.comId = #{comId}
+		and hi.husId = #{husId}
+		group by hi.comId, r.husId
+	</select>
+	
+
+</mapper>

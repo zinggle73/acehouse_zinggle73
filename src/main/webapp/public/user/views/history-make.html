@@ -1,0 +1,79 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">{{user.userName}} HISTORY</h1>
+			</div>
+			<div class="panel-body">
+				<div class="controls">
+					<form novalidate="novalidate" class="form-horizontal">
+						<div class="control-group form-group">
+							<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputComId">소속회사 :</label>
+							<div class="controls col-sm-2 col-xs-4"><span  class="form-control">{{user.comName}}</span></div>
+							<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputWorkField">업무분야 :</label>
+							<div class="controls col-sm-2 col-xs-4"><span  class="form-control">{{user.workMsg}}</span></div>
+							<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputPass">권한등급 :</label>
+							<div class="controls col-sm-2 col-xs-4"><span  class="form-control">{{user.authMsg}}</span></div>
+							<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputName">이름 :</label>
+							<div class="controls col-sm-2 col-xs-4"><span  class="form-control">{{user.userName}}</span></div>
+						</div>
+						<div class="control-group form-group">							
+							<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputPhone">전화번호 :</label>
+							<div class="controls col-sm-2 col-xs-4"><span  class="form-control">{{user.phone}}</span></div>
+							<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputTwitt">TWITT ID :</label>
+							<div class="controls col-sm-2 col-xs-4"><span  class="form-control">{{user.twitt}}</span></div>		
+							<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputTwitt">가입일 :</label>
+							<div class="controls col-sm-2 col-xs-4"><span  class="form-control">{{user.registDate}}</span></div>
+							<label class="control-label col-sm-1 col-xs-2 btn btn-xs btn-primary" for="inputTwitt">메일 :</label>
+							<div class="controls col-sm-2 col-xs-4"><span  class="form-control">{{user.email}}</span></div>				
+						</div>	
+						<div class="control-group form-group">		
+							<div class="controls col-sm-offset-2  col-sm-7 col-xs-2">		
+							</div>							
+							<div class="controls  col-sm-3 col-xs-16" align="right">
+								<a ng-click="cancel()" class="btn btn-small btn-warning">cancel</a>
+							</div>	
+						</div>	
+					</form>			
+				</div>
+				<div >
+					<ul class=" pull-left">
+						Search: <input ng-model="qq" style="width:30;">								
+						<select ng-model="pageSize" id="pageSize">
+					        <option value="5">5</option>
+					        <option value="10">10</option>				        
+					        <option value="20">20</option>
+					        <option value="50">50</option>
+					        <option value="100">100</option>
+					     </select>
+					</ul>
+					<ul class=" pull-right">
+						<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" type="button" class="btn btn-xs btn-info"> PREV </button>
+	    				{{currentPage+1}}/{{numberOfPages()}}
+	    				<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1" type="button" class="btn btn-xs btn-danger"> NEXT </button>		
+					</ul>
+					<table class="table table-striped table-bordered table-hover table-condensed">
+						<thead>
+							<tr class="active" >
+								<th class="text-center" >접속횟수</th>
+								<th class="text-center" >최종접속일</th>
+								<th class="text-center" >현재접속시간</th>
+								<th class="text-center" >종료일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="history in user.historys  | filter:qq | orderBy:connCount | startFrom:currentPage*pageSize | limitTo:pageSize"  >
+								<td class="success text-center" >{{ history.connCount }}</td>
+								<td class="danger text-center" >{{ history.lastLoginDate }}</td>
+								<td class="danger text-center" >{{ history.nowLoginDate }}</td>
+								<td class="danger text-center" >{{ history.logoutDate }}</td>
+							</tr>
+						</tbody>
+					</table>	
+				</div>			
+			</div>	
+		</div>	
+	</div>
+</div>
+
+

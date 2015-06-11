@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ace.web.persistence.ContractMapper">
+
+	<resultMap id="ContractMap" type="Contract">
+		<id property="id" column="id" />
+		<result property="comId" column="comId" />
+		<result property="year" column="year" />
+		<result property="local" column="local" />
+		<result property="living" column="living" />
+		<result property="pay" column="pay" />
+		<result property="isYn" column="isYn" />
+		<result property="registDate" column="registDate" />	
+	</resultMap>
+
+
+	<select id="getList"  resultMap="ContractMap">
+		select 
+		id
+		,comId
+		,year
+		,local
+		,living
+		,pay
+		,isYn
+		,registDate
+		from
+		contract
+	</select>
+
+	
+	<select id="getItem" parameterType="java.util.HashMap" resultMap="ContractMap">
+		select
+		id
+		,comId
+		,year
+		,local
+		,living
+		,pay
+		,isYn
+		,registDate
+		from
+		contract
+		where
+		id = #{id}		
+	</select>
+	
+
+	<select id="getCheckItem" parameterType="Contract" resultMap="ContractMap">
+		select
+		id
+		,comId
+		,year
+		,local
+		,living
+		,pay
+		,isYn
+		,registDate
+		from
+		contract
+		where
+		1=1
+		<if test="id > 0">
+			AND id = #{id}
+		</if>
+		<if test="comId !=null and comId !=''">
+			AND comId = #{comId}
+		</if>	
+	</select>
+		
+	<select id="getPayItem" parameterType="Contract" resultType="Long">
+		select
+		pay
+		from
+		contract
+		where
+		isYn = 'Y'
+		<if test="comId !=null and comId !=''">
+			AND comId = #{comId}
+		</if>	
+		<if test="year !=null and year !=''">
+			AND year = #{year}
+		</if>
+		<if test="local !=null and local !=''">
+			AND local = #{local}
+		</if>
+		<if test="living !=null and living !=''">
+			AND living = #{living}
+		</if>
+	</select>	
+		
+	<select id="getCompays"  resultType="Contract">
+		select 
+		distinct(comId) comId
+		from 
+		contract
+	</select>	
+		
+	<select id="getYears" parameterType="Contract" resultType="Contract">
+		select 
+		distinct(year) year
+		from 
+		contract
+		where
+		comId = #{comId}
+	</select>	
+
+	<select id="getLocals" parameterType="Contract" resultType="Contract">
+		select 
+		distinct(local) local
+		from 
+		contract
+		where
+		comId = #{comId}
+		and year = #{year}
+	</select>
+
+	<select id="getContracts" parameterType="Contract" resultType="Contract">
+		select 
+		id
+		,comId
+		,year
+		,local
+		,living
+		,pay
+		from 
+		contract
+		where
+		comId = #{comId}
+		and year = #{year}
+		and local = #{local}
+	</select>
+	
+	<insert id="insert" parameterType="Contract">
+		insert into contract
+		(
+			comId
+			,year
+			,local
+			,living
+			,pay
+			,isYn
+			,registDate
+		)
+		values
+		(
+			#{comId}
+			,#{year}
+			,#{local}
+			,#{living}
+			,#{pay}
+			,#{isYn}
+			,SYSDATE()
+		)
+	</insert>
+
+	<update id="update" parameterType="Contract">
+		update contract SET
+		<if test="id > 0">
+			id = #{id}
+		</if>
+		<if test="comId !=null">
+			,comId = #{comId}
+		</if>
+		<if test="year !=null">
+			,year = #{year}
+		</if>
+		<if test="local !=null">
+			,local = #{local}
+		</if>
+		<if test="living !=null">
+			,living = #{living}
+		</if>
+		<if test="pay > 0">
+			,pay = #{pay}
+		</if>
+		<if test="isYn !=null">
+			,isYn = #{isYn}
+		</if>		
+		where
+		id = #{id}
+	</update>
+
+	<delete id="purge" parameterType="Contract">
+		DELETE
+		FROM contract
+		where
+		id = #{id}
+	</delete>
+
+
+</mapper>

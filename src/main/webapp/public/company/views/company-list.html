@@ -1,0 +1,61 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">주택관리 LIST</h1>
+			</div>
+			<div class="panel-body">
+				<div >
+					<ul class=" pull-left">
+						Search: <input ng-model="qq" style="width:30;">								
+						<select ng-model="pageSize" id="pageSize">
+					        <option value="5">5</option>
+					        <option value="10">10</option>				        
+					        <option value="20">20</option>
+					        <option value="50">50</option>
+					        <option value="100">100</option>
+					     </select>
+					</ul>
+					<ul class=" pull-right">
+						<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" type="button" class="btn btn-xs btn-info"> PREV </button>
+	    				{{currentPage+1}}/{{numberOfPages()}}
+	    				<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1" type="button" class="btn btn-xs btn-danger"> NEXT </button>		
+					</ul>
+					<table ng-table  class="table table-striped table-bordered table-hover table-condensed">
+						<thead>
+							<tr class="active" >
+								<th class="text-center" >구분</th>
+								<th class="text-center" >회사명</th>
+								<th class="text-center" >대표자명</th>
+								<th class="text-center" >휴대전화</th>
+								<th class="text-center" >대표전화</th>
+								<th class="text-center" >주소</th>
+								<th class="text-center" colspan="2">ACTION</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="company in companys  | filter:qq | orderBy:comName | startFrom:currentPage*pageSize | limitTo:pageSize"  >
+								<td class="success text-center" ><a ng-click="editCompany(company.id)" class="btn btn-xs btn-primary">{{ company.sort }}</a></td>
+								<td class="success text-center" ><a ng-click="editCompany(company.id)" class="btn btn-xs btn-primary">{{ company.comName }}</a></td>
+								<td class="danger text-center" >{{ company.ceoName }}</td>
+								<td class="danger text-center" >{{ company.cell }}</td>
+								<td class="danger text-center" >{{ company.phone }}</td>
+								<td class="danger text-center" >{{ company.localKo +" "+ company.address }}</td>
+								<td class="text-center info" >
+									<a ng-click="editCompany(company.id)" class="btn btn-xs btn-primary">수정</a>		
+									<a ng-click="deleteCompany(company.id)" class="btn btn-xs btn-danger">삭제</a>					
+								</td>
+								<td class="text-center info" >		
+									<a ng-if="company.comId != 'C8888'" ng-click="location.path('/housing-make/'+company.comId)" class="btn btn-xs btn-success">HOUSE</a>								
+								</td>
+							</tr>
+						</tbody>					
+					</table>
+				</div>	
+			</div>
+			
+		</div>	
+	</div>
+</div>
+
+

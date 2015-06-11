@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ace.web.persistence.RoomMapper">
+
+	<resultMap id="RoomMap" type="Room">
+		<id property="id" column="id" />
+		<result property="husId" column="husId" />
+		<result property="roomNum" column="roomNum" />
+		<result property="living" column="living" />
+		<result property="amount" column="amount" />		
+		<result property="beforePass" column="beforePass" />
+		<result property="afterPass" column="afterPass" />
+		<result property="isZero" column="isZero" />
+	</resultMap>
+	
+
+	<select id="getList" parameterType="Room" resultMap="RoomMap">
+		select 
+		id
+		,husId
+		,roomNum
+		,living
+		,amount
+		,beforePass
+		,afterPass
+		,isZero
+		from
+		room
+		where
+		1=1
+		<if test="husId !=null">
+			AND husId = #{husId}
+		</if>
+		<if test="isZero !=null">
+			AND isZero = #{isZero}
+		</if>
+	</select>
+
+	<select id="getItem" parameterType="java.util.HashMap" resultMap="RoomMap">
+		select
+		id
+		,husId
+		,roomNum
+		,living
+		,amount
+		,beforePass
+		,afterPass
+		,isZero
+		from
+		room
+		where
+		id = #{id}		
+	</select>
+	
+	<select id="getCheckItem" parameterType="java.util.HashMap" resultMap="RoomMap">
+		select
+		id
+		,husId
+		,roomNum
+		,living
+		,amount
+		,beforePass
+		,afterPass
+		,isZero
+		from
+		room
+		where
+		1=1
+		<if test="id > 0">
+			AND id = #{id}
+		</if>
+		<if test="husId !=null">
+			AND husId = #{husId}
+		</if>
+		<if test="roomNum !=null">
+			AND roomNum = #{roomNum}
+		</if>
+	</select>
+
+	<select id="getIsIng" parameterType="Room"  resultType="String">
+		select
+		c.isIng
+		from 
+		room r, clean c
+		where 
+		r.husId = c.husId
+		and r.roomNum = c.roomNum
+		and c.isIng not in ('501','500')
+		and r.husId = #{husId}
+		and r.roomNum = #{roomNum}
+	</select>
+
+
+	<insert id="insert" parameterType="Room">
+		insert into room
+		(
+			husId
+			,roomNum
+			,living
+			,amount
+			,beforePass
+			,afterPass
+			,isZero
+		)
+		values
+		(
+			#{husId}
+			,#{roomNum}
+			,#{living}
+			,#{amount}
+			,#{beforePass}
+			,#{afterPass}
+			,#{isZero}
+		)
+	</insert>
+
+	<update id="update" parameterType="Room">
+		update room SET
+		<if test="id > 0">
+			id = #{id}
+		</if>
+		<if test="husId !=null">
+			,husId = #{husId}
+		</if>
+		<if test="roomNum !=null">
+			,roomNum = #{roomNum}
+		</if>
+		<if test="living !=null">
+			,living = #{living}
+		</if>
+		<if test="amount > 0">
+			,amount = #{amount}
+		</if>
+		<if test="beforePass !=null">
+			,beforePass = #{beforePass}
+		</if>
+		<if test="afterPass !=null">
+			,afterPass = #{afterPass}
+		</if>
+		<if test="isZero !=null">
+			,isZero = #{isZero}
+		</if>		
+		where
+		1=1
+		<if test="id > 0">
+			AND id = #{id}
+		</if>
+		<if test="husId !=null">
+			AND husId = #{husId}
+		</if>
+		<if test="roomNum !=null">
+			AND roomNum = #{roomNum}
+		</if>
+	</update>
+
+	<delete id="purge" parameterType="Room">
+		DELETE
+		FROM room
+		where
+		id = #{id}
+		<if test="husId !=null">
+			AND husId = #{husId}
+		</if>
+	</delete>
+
+</mapper>

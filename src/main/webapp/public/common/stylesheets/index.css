@@ -1,0 +1,62 @@
+
+table, th , td  
+{
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+tbody tr:nth-child(odd)	
+{
+  background-color: #f1f1f1;
+}
+
+tbody tr:nth-child(even) 
+{
+  background-color: #ffffff;
+}
+
+.right-caret 
+{
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-left: 4px solid;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.collapsible-row:hover
+{
+    cursor: pointer;
+    background-color:#EDF4F5;
+}
+
+i 
+{
+    cursor: pointer;
+}
+
+/* Fix for Bootstrap 3 with Angular UI Bootstrap */
+
+.modal { 
+	display: block;
+}
+
+/* Custom dialog/modal headers */
+
+.dialog-header-error { background-color: #d2322d; }
+.dialog-header-wait { background-color: #428bca; }
+.dialog-header-notify { background-color: #eeeeee; }
+.dialog-header-confirm { background-color: #333333; }
+.dialog-header-error span, .dialog-header-error h4,
+.dialog-header-wait span, .dialog-header-wait h4,
+.dialog-header-confirm span, .dialog-header-confirm h4 { color: #ffffff; }
+
+/* Ease Display */
+
+.pad { padding: 25px; }
+
+body { padding-top: 70px; }

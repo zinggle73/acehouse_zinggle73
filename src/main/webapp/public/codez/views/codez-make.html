@@ -1,0 +1,98 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">코드생성기</h1>
+			</div>
+			<div class="panel-body">
+				<ul class=" pull-left">
+					Search: <input ng-model="qq">								
+					<select ng-model="pageSize" id="pageSize">
+				        <option value="5">5</option>
+				        <option value="10">10</option>				        
+				        <option value="20">20</option>
+				        <option value="50">50</option>
+				        <option value="100">100</option>
+				     </select>
+				</ul>
+				<ul class=" pull-right">
+					<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" type="button" class="btn btn-xs btn-info"> PREV </button>
+    				{{currentPage+1}}/{{numberOfPages()}}
+    				<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1" type="button" class="btn btn-xs btn-danger"> NEXT </button>		
+				</ul>
+				<table ng-table  class="table table-striped table-bordered table-hover table-condensed">
+					<thead>
+						<tr class="active" >
+							<th class="text-center" style="width: 100px;"></th>
+							<th class="text-center" >그룹코드</th>
+							<th class="text-center" >상세코드</th>
+							<th class="text-center" >코드명</th>
+							<th class="text-center" >코드설명</th>
+							<th class="text-center" >사용여부</th>
+						</tr>
+						<tr>
+		                    <td class="success text-center">
+		                        <div >
+		                            <div class="pull-center">
+		                            	<a ng-if="!codez.id" ng-click="createCodez()" class="btn btn-xs btn-success">저장</a>
+		                            	<a ng-if="codez.id" ng-click="updateCodez( codez )" class="btn btn-xs btn-primary">수정</a>
+										<a ng-click="cancel()" class="btn btn-xs btn-danger">취소</a>	
+		                            </div>
+		                        </div>
+		                    </td>
+		                    <td class="success text-center">
+		                    	<select ng-model="codez.groupCode" ng-options="code.detailCode as code.detailCode for code in codes">
+						    		<option value="">00000</option>
+						    	</select>
+							</td>
+							<td class="success text-center">
+		                    	<input type="text" id="inputDetailCode"   ng-model="codez.detailCode" placeholder="DETAIL CODE" style="width: 80px;"/>
+							</td >
+							<td class="success text-center">
+		                    	<input type="text" id="inputCodeName"   ng-model="codez.codeName" placeholder="CODE NAME" style="width: 120px;"/>
+							</td>
+							<td class="success text-center">
+								<input type="text" id="inputCodeExplan"  ng-model="codez.codeExplan" placeholder="CODE DESCRIPTION" style="width: 500px;"/>
+		                    	
+							</td>
+		                    <td class="success text-center">
+		                    	<select ng-init="codez.codeOr = 'Y'" ng-model="codez.codeOr" ng-options="yn.value as yn.key for yn in yns">
+						    		<option value="">-- YN --</option>
+						    	</select>	
+		                    </td>
+		                    
+	                	</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat-start="codez in codezs  | orderBy:'-detailCode' | filter:qq | startFrom:currentPage*pageSize | limitTo:pageSize" >
+							<td class="success text-center"></td>
+							<td class="success text-center collapsible-row" ng-click="codez.collapseRows = !codez.collapseRows"  >
+								{{ codez.groupCode }}
+								<span ng-class="{'caret':!codez.collapseRows, 'right-caret':codez.collapseRows}"></span>
+							</td>
+							<td class="success text-center"><a ng-click="editCodez(codez.id)" class="btn btn-xs btn-danger">{{ codez.detailCode }}</a></td>
+							<td class="success text-center">{{ codez.codeName }}</td>
+							<td class="success text-center">{{ codez.codeExplan }}</td>
+							<td class="success text-center"></td>
+						</tr>	
+						<tr ng-repeat-end  ng-repeat="detail in codez.codezs  | orderBy:'detailCode'" ng-hide="!codez.collapseRows">
+							<td class="danger text-center"></td>
+							<td rowspan="{{codez.codezs.length}}" ng-if="$first" class="danger  text-center">{{ detail.groupCode }}</td>
+							<td class="success text-center"><a ng-click="editCodez(detail.id)" class="btn btn-xs btn-primary">{{ detail.detailCode }}</a></td>
+							<td class="success text-center">{{ detail.codeName }}</td>
+							<td class="success text-center">{{ detail.codeExplan }}</td>
+							<td class="success text-center">
+								<div ng-if="detail.codeOr == 'Y'" ng-click="orToggle(detail)" class="btn btn-xs btn-success">{{ detail.codeOr }} </div>
+								<div ng-if="detail.codeOr == 'N'" ng-click="orToggle(detail)" class="btn btn-xs btn-danger">{{ detail.codeOr }} </div>
+							</td>
+						</tr>
+						<tr ng-repeat-end></tr>
+					</tbody>						
+				</table>	
+			</div>
+			
+		</div>	
+	</div>
+</div>
+
+

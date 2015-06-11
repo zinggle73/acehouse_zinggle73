@@ -1,0 +1,66 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">USER CREATE</h1>
+			</div>
+			<div class="panel-body">
+				<div class="control-group form-group">
+					<div class="controls">
+						<form novalidate="novalidate" class="form-horizontal">
+							<div class="control-group form-group">
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputComId">소속회사* :</label>
+								<div class="controls col-sm-2">
+									<select ng-model="user.comId" ng-options="com.comId as com.comName for com in coms">
+							    		<option value="">--회사--</option>
+							    	</select>
+								</div>
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputWorkField">업무분야* :</label>
+								<div class="controls col-sm-2">
+									<select ng-model="user.workField" ng-options="work.detailCode as work.codeName for work in works">
+							    		<option value="">--업무분야--</option>
+							    	</select>
+								</div>
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputPass">권한등급* :</label>
+								<div class="controls col-sm-2">
+									<select ng-model="user.userAuth" ng-options="auth.detailCode as auth.codeName for auth in auths">
+							    		<option value="">--권한--</option>
+							    	</select>									
+								</div>
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputName">이름* :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputName" class="form-control"  ng-model="user.userName" placeholder="USERNAME"/>
+								</div>
+							</div>
+							<div class="control-group form-group">
+								
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputPhone">전화번호 :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputPhone" class="form-control" ng-model="user.phone" placeholder="PHONE ('-' 포함)"/> 
+								</div>
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputTwitt">TWITT ID :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputTwitt" class="form-control" ng-model="user.twitt" placeholder="TWITT ID @포함"/>
+								</div>		
+								<label class="control-label col-sm-1 btn btn-xs btn-primary" for="inputEmail">E-mail* :</label>
+								<div class="controls col-sm-2">
+									<input type="text" id="inputEmail" class="form-control" ng-model="user.email" placeholder="E-MAIL"/>
+								</div>						
+							</div>
+
+							<div class="control-group form-group">		
+								<div class="controls col-sm-offset-2 col-sm-6">
+								</div>							
+								<div class="controls  col-sm-4">
+									<a ng-click="cancel()" class="btn btn-small btn-warning">cancel</a>
+									<a ng-click="createUser()" ng-if="!user.id" class="btn btn-small btn-primary">create user</a>
+									<a ng-click="updateUser(user.id)" ng-if="user.id" class="btn btn-small btn-primary">update user</a>	
+								</div>	
+							</div>									
+						</form>
+					</div>
+				</div>	
+			</div>  
+		</div>	
+	</div>	
+</div>

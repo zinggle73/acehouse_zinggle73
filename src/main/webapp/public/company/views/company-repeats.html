@@ -1,0 +1,210 @@
+<div class="container">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">주택관리 / 빌라생성기</h1>
+			</div>
+			<div class="panel-body">
+				<ul class=" pull-left">
+					Search: <input ng-model="qq" style="width:30;">								
+					<select ng-model="pageSize" id="pageSize">
+				        <option value="5">5</option>
+				        <option value="10">10</option>				        
+				        <option value="20">20</option>
+				        <option value="50">50</option>
+				        <option value="100">100</option>
+				     </select>
+				</ul>
+				<ul class=" pull-right">
+					<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" type="button" class="btn btn-xs btn-info"> PREV </button>
+    				{{currentPage+1}}/{{numberOfPages()}}
+    				<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1" type="button" class="btn btn-xs btn-danger"> NEXT </button>		
+				</ul>
+				<table ng-table  class="table table-striped table-bordered table-hover table-condensed">
+					<thead>
+						<tr class="active" >
+							<th class="text-center" style="width: 150px;"></th>							
+							<th class="text-center" >회사명</th>
+							<th class="text-center" >구분</th>
+							<th class="text-center" >대표자명</th>
+							<th class="text-center" >휴대전화</th>
+							<th class="text-center" >대표전화</th>
+							<th class="text-center" colspan="2">주소</th>
+						</tr>
+						<tr>
+		                    <td class="success text-center">
+		                        <div >
+		                            <div class="pull-center">
+		                            	<a ng-if="!company.id" ng-click="createCompany( company )" class="btn btn-xs btn-success">저장</a>
+		                            	<a ng-if="company.id" ng-click="updateCompany( company )" class="btn btn-xs btn-primary">수정</a>
+		                            	<a ng-if="company.id" ng-click="deleteCompany( company.id )" class="btn btn-xs btn-primary">삭제</a>
+										<a ng-click="cancelCompany()" class="btn btn-xs btn-danger">취소</a>	
+		                            </div>
+		                        </div>
+		                    </td>
+		                    <td class="success text-center">
+		                    	<input type="text" ng-model="company.comName" placeholder="" style="width: 100px;"/>
+							</td>
+		                    <td class="success text-center">
+		                    	<select ng-model="company.sort" ng-options="com.detailCode as com.codeName for com in coms">
+						    		<option value="">--회사종류--</option>
+						    	</select>	
+							</td>							
+							<td class="success text-center">
+		                    	<input type="text" ng-model="company.ceoName" placeholder="" style="width: 100px;"/>
+							</td >							
+							<td class="success text-center">
+		                    	<input type="text" ng-model="company.cell" placeholder="" style="width: 120px;"/>
+							</td>
+							<td class="success text-center">
+		                    	<input type="text" ng-model="company.phone" placeholder="" style="width: 120px;"/>
+							</td>
+		                    <td class="success text-center" colspan="2">
+		                    	<select ng-model="company.local" ng-options="local.detailCode as local.codeName for local in locals">
+						    		<option value="">--지역구--</option>
+						    	</select>		
+						    	<input type="text" ng-model="company.address" placeholder="" style="width: 180px;"/>		
+		                    </td>		                    
+	                	</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat-start="company in companys | orderBy:'id' | filter:qq | startFrom:currentPage*pageSize | limitTo:pageSize" ng-init="comIndex = $index">
+							<td ng-hide="!company.collapseRows" class="success text-center" style="width: 150px;">
+								<a ng-if="company.sort=='01'" ng-show="!company.addMode" ng-click="comToggleAddMode(company)" class="btn btn-xs btn-success">{{company.comName}} 빌라생성</a>	
+								<a ng-if="company.sort=='01'" ng-show="company.addMode" ng-click="comToggleAddMode(company)" class="btn btn-xs btn-danger">취소</a>	
+							</td>
+							<td ng-hide="company.collapseRows" class="success text-center" style="width: 150px;"></td>							
+							<td class="success text-right collapsible-row" ng-click="company.collapseRows = !company.collapseRows"  >
+								{{ company.comName }}<span ng-class="{'caret':!company.collapseRows, 'right-caret':company.collapseRows}"></span>							
+							</td>
+							<td class="success text-center" ><a ng-click="editCompany(company.id)" class="btn btn-xs btn-primary">{{ company.sortKo }}</a></td>
+							<td class="success text-center" >{{ company.ceoName }}</td>
+							<td class="success text-center" >{{ company.cell }}</td>
+							<td class="success text-center" >{{ company.phone }}</td>
+							<td class="success text-center" colspan="2">{{ company.localKo +" "+ company.address }}</td>
+						</tr>
+						
+						
+						
+						
+						<tr  class="active"  ng-hide="!company.collapseRows">
+							<td class="default text-center" ></td>													
+							<td class="default text-center" >빌라명</td>
+							<td class="default text-center" >현관비번</td>
+							<td class="default text-center" >건물주</td>
+							<td class="default text-center" >휴대전화</td>		
+							<td class="default text-center" >보유여부</td>					
+							<td class="default text-center" colspan="2">주소</td>
+						</tr>
+						<tr   ng-show="company.addMode == true">			
+		                    <td class="default text-center">
+		                        <div >
+		                            <div class="pull-center">
+		                            	<a ng-if="!house.id" ng-click="createHouse(company.comId, house, comIndex);" class="btn btn-xs btn-success">저장</a>
+		                            	<a ng-if="house.id" ng-click="updateHouse(company.comId, house)" class="btn btn-xs btn-primary">수정</a>
+										<a ng-click="cancelHouse()" class="btn btn-xs btn-danger">취소</a>	
+		                            </div>
+		                        </div>
+		                    </td>		                    
+		                    <td class="default text-center"><input type="text" ng-model="house.husName" style="width: 100px;"/></td>							
+							<td class="default text-center"><input type="text" ng-model="house.gatePass" style="width: 100px;"/></td >							
+							<td class="default text-center"><input type="text" ng-model="house.owner" style="width: 100px;"/></td>
+							<td class="default text-center"><input type="text" ng-model="house.phone" style="width: 120px;"/></td>
+							<td class="default text-center"> 
+								<input type="radio"  ng-model="house.isIng" value="N" ng-checked="house.isIng == 'N'" /> 미보유&nbsp;&nbsp;
+    							<input type="radio"  ng-model="house.isIng" value="Y" ng-checked="house.isIng == 'Y'" /> 보유   
+							</td>
+		                    <td class="default text-center" colspan="2">
+		                    	<select ng-model="house.local" ng-options="local.detailCode as local.codeName for local in locals">
+						    		<option value="">--지역구--</option>
+						    	</select>			
+						    	<input type="text" ng-model="house.address" placeholder="" style="width: 180px;"/>		
+						    	<input type="hidden" id="inputHusId"  ng-model="house.husId" />	
+								<input type="hidden" id="inputComId"  ng-model="house.comId"  value="{{company.comId}}"/>
+		                    </td>		                    
+	                	</tr>
+	                	
+						<tr ng-repeat-start="house in company.houses  | orderBy:id" ng-hide="!company.collapseRows">
+							<td  ng-hide="!house.collapseRows || house.isIng == 'N'" class="danger text-center">
+								<a ng-show="!house.addMode" ng-click="houseToggleAddMode(house)" class="btn btn-xs btn-info">{{house.husName}} room생성</a>	
+								<a ng-show="house.addMode" ng-click="houseToggleAddMode(house)" class="btn btn-xs btn-danger">취소</a>							
+							</td>
+							<td  ng-hide="house.collapseRows && house.isIng == 'Y'" class="danger text-center"></td>
+							<td class="danger text-right collapsible-row" ng-click="house.collapseRows = !house.collapseRows">
+								{{ house.husName }} <span ng-class="{'caret':!house.collapseRows, 'right-caret':house.collapseRows}">
+							</span>
+							</td>
+							<td class="danger text-center"><a ng-click="editHouse(company.comId, house);comToggleAddMode(company);" class="btn btn-xs btn-primary">{{ house.gatePass }}</a></td>
+							<td class="danger text-center">{{ house.owner }}</td>
+							<td class="danger text-center">{{ house.phone }} </td>	
+							<td class="danger text-center"><a ng-click="editHouse(company.comId, house);comToggleAddMode(company);">
+								<div ng-if="house.isIng == 'Y'" class="btn btn-xs btn-success">보유</div>
+								<div ng-if="house.isIng == 'N'" class="btn btn-xs btn-danger">미보유</div>	</a>
+							</td>							
+							<td class="danger text-center" colspan="2">{{ house.localKo +" "+ house.address }}</td>
+						</tr>
+						
+						
+						
+						
+						<tr class="active"  ng-hide="!company.collapseRows || !house.collapseRows">
+							<td class="default text-center" ></td>	
+							<td class="default text-center" ></td>													
+							<td class="default text-center" >호실</td>
+							<td class="default text-center" >거주형태</td>
+							<td class="default text-center" >현재비번</td>
+							<td class="default text-center" >교체비번</td>
+							<td class="default text-center" >공실현황</td>
+							<td class="default text-center" >청소접수</td>
+						</tr>
+						<tr ng-show="house.addMode == true">								                    
+		                    <td class="default text-center">
+		                        <div >
+		                            <div class="pull-center">
+		                            	<a ng-if="!room.id" ng-click="createRoom(house.husId, room, comIndex, $index)" class="btn btn-xs btn-success">저장</a>
+		                            	<a ng-if="room.id" ng-click="updateRoom(house.husId, room)" class="btn btn-xs btn-primary">수정</a>
+		                            	<a ng-if="room.id" ng-click="deleteRoom(house.husId, room.id)" class="btn btn-xs btn-primary">삭제</a>
+										<a ng-click="cancelRoom()" class="btn btn-xs btn-danger">취소</a>	
+		                            </div>
+		                        </div>
+		                    </td>		  
+		                    <td class="default text-center"></td>                  							
+							<td class="default text-center"><input type="text" ng-model="room.roomNum" style="width: 100px;"/></td >							
+							<td class="default text-center">
+								<select ng-model="room.living" ng-options="code.detailCode as code.codeName for code in livings">
+					    			<option value="">--주거형태--</option>
+					    		</select>
+							</td>
+							<td class="default text-center"><input type="text" ng-model="room.beforePass" style="width: 100px;"/></td>
+							<td class="default text-center"><input type="text" ng-model="room.afterPass" style="width: 100px;"/></td>
+		                    <td class="default text-center">
+								<input type="radio"  ng-model="room.isZero" value="N" ng-checked="room.isZero == 'N'" /> 공실&nbsp;&nbsp;
+    							<input type="radio"  ng-model="room.isZero" value="Y" ng-checked="room.isZero == 'Y'"/> 입실    					
+		                    </td>	
+		                    <td class="default text-center"><input type="hidden"  ng-model="room.husId" /></td>	                    
+	                	</tr>
+	 
+						<tr ng-repeat-end ng-repeat="room in house.rooms  | orderBy:'roomNum'" ng-hide="!company.collapseRows || !house.collapseRows">
+							<td colspan="2" class="info text-center"></td>
+							<td class="info text-center"> <a ng-click="editRoom(house.husId, room.id);houseToggleAddMode(house);" class="btn btn-xs btn-primary">{{ room.roomNum }}</a></td>
+							<td class="info text-center">{{ room.livingMsg }}</td>
+							<td class="info text-center">{{ room.beforePass }}</td>
+							<td class="info text-center">{{ room.afterPass }}</td>
+							<td class="info text-center">
+								<div ng-if="room.isZero == 'Y'" ng-click="zeroToggle(room)" class="btn btn-xs btn-success">{{ room.zeroMsg }} </div>
+								<div ng-if="room.isZero == 'N'" ng-click="zeroToggle(room)" class="btn btn-xs btn-danger">{{ room.zeroMsg }} </div>									
+							</td>
+							<td class="info text-center">
+								<a ng-if="!room.isIng" ng-click="createClean(room)" class="btn btn-xs btn-primary">접수</a>	
+						 		<a ng-if="room.isIng" ng-disabled="room.isIng" class="btn btn-xs btn-success">{{room.isIngMsg}} </a>
+							</td>
+						</tr>
+						<tr ng-repeat-end></tr>
+					</tbody>					
+				</table>
+			</div>	
+		</div>	
+	</div>
+</div>
+
+

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ace.web.persistence.CodezMapper">
+
+	<resultMap id="CodezMap" type="Codez">
+		<id property="id" column="id" />
+		<result property="groupCode" column="groupCode" />
+		<result property="detailCode" column="detailCode" />
+		<result property="codeName" column="codeName" />
+		<result property="codeExplan" column="codeExplan" />		
+		<result property="codeOr" column="codeOr" />
+	</resultMap>
+
+
+	<select id="getList" parameterType="Codez" resultMap="CodezMap">
+		select * from (select Row_Number() OVER (ORDER BY id DESC) AS
+		rownumber
+		,id
+		,groupCode
+		,detailCode
+		,codeName
+		,codeExplan
+		,codeOr
+		from
+		codez
+		where
+		1=1
+		<if test="id !=null and id !=0">
+			AND id = #{id}
+		</if>		
+		<if test="groupCode !=null and groupCode !=''">
+			AND groupCode = #{groupCode}
+		</if>
+		<if test="detailCode !=null and detailCode !=''">
+			AND detailCode = #{detailCode}
+		</if>
+		<if test="codeExplan !=null and codeExplan !=''">
+			AND codeExplan = #{codeExplan}
+		</if>
+		<if test="codeOr !=null and codeOr !=''">
+			AND codeOr = #{codeOr}
+		</if>
+		) search
+		where
+		1=1
+		AND rownumber between #{from} and #{to}
+	</select>
+
+	<select id="getDetailCodes" parameterType="java.util.HashMap" resultMap="CodezMap">
+		select
+		id
+		,groupCode
+		,detailCode
+		,codeName
+		,codeExplan
+		,codeOr
+		from
+		codez
+		where
+		1=1
+		<if test="groupCode !=null and groupCode !=''">
+			AND groupCode = #{groupCode}
+		</if>
+		<if test="codeOr !=null and codeOr !=''">
+			AND codeOr = #{codeOr}
+		</if>
+		order by groupCode, detailCode
+	</select>
+
+	<select id="getAllList" resultMap="CodezMap">
+		select
+		id
+		,groupCode
+		,detailCode
+		,codeName
+		,codeExplan
+		,codeOr
+		from
+		codez
+		order by groupCode, detailCode
+	</select>
+	
+	<select id="getGroupCodezs" resultMap="CodezMap">		
+		select
+		id
+		,groupCode
+		,detailCode
+		,codeName
+		,codeExplan
+		,codeOr	
+		from
+		codez
+		where
+		groupCode = '00000'
+		group by detailCode
+		order by detailCode
+	</select>
+	
+	
+	<select id="getItem" parameterType="java.util.HashMap" resultMap="CodezMap">
+		select
+		id
+		,groupCode
+		,detailCode
+		,codeName
+		,codeExplan
+		,codeOr
+		from
+		codez
+		where
+		id = #{id}
+	</select>
+
+	<insert id="insert" parameterType="Codez">
+		insert into codez
+		(
+			groupCode
+			,detailCode
+			,codeName
+			,codeExplan
+			,codeOr
+		)
+		values
+		(
+			#{groupCode}
+			,#{detailCode}
+			,#{codeName}
+			,#{codeExplan}
+			,#{codeOr}
+		)
+	</insert>
+
+	<update id="update" parameterType="Codez">
+		update codez SET
+		<if test="id > 0">
+			id = #{id}
+		</if>		
+		<if test="groupCode !=null">
+			,groupCode = #{groupCode}
+		</if>
+		<if test="detailCode !=null">
+			,detailCode = #{detailCode}
+		</if>
+		<if test="codeName !=null">
+			,codeName = #{codeName}
+		</if>
+		<if test="codeExplan !=null">
+			,codeExplan = #{codeExplan}
+		</if>
+		<if test="codeOr !=null">
+			,codeOr = #{codeOr}
+		</if>
+		where
+		id = #{id}
+	</update>
+	
+	<delete id="purge" parameterType="Codez">
+		DELETE
+		FROM codez
+		where
+		id = #{id}
+	</delete>
+
+
+</mapper>

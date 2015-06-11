@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ace.web.persistence.CleanMapper">
+
+	<resultMap id="CleanMap" type="Clean">
+		<id property="id" column="id" />
+		<result property="comId" column="comId" />
+		<result property="comName" column="comName" />
+		<result property="husId" column="husId" />
+		<result property="husName" column="husName" />
+		<result property="roomNum" column="roomNum" />
+		<result property="orderer" column="orderer" />
+		<result property="oderName" column="oderName" />
+		<result property="phone" column="phone" />		
+		<result property="pay" column="pay" />
+		<result property="addPay" column="addPay" />
+		<result property="living" column="living" />
+		<result property="livingMsg" column="livingMsg" />
+		<result property="charge" column="charge" />
+		<result property="chargeName" column="chargeName" />
+		<result property="deposit" column="deposit" />	
+		<result property="isIng" column="isIng" />		
+		<result property="isIngMsg" column="isIngMsg" />		
+		<result property="address" column="address" />
+		<result property="memo" column="memo" />
+		<result property="gatepass" column="gatepass" />
+		<result property="bepass" column="bepass" />
+		<result property="afpass" column="afpass" />
+		<result property="orderDate" column="orderDate" />
+		<result property="hopeDate" column="hopeDate" />	
+		<result property="confirmDate" column="confirmDate" />	
+	</resultMap>
+	
+
+	<select id="getList" parameterType="Clean" resultMap="CleanMap">
+		select 
+		id
+		,comId
+		,(select co.comName from company co where cl.comId = co.comId) comName
+		,husId
+		,(select ho.husName from house ho where cl.husId = ho.husId) husName
+		,roomNum
+		,orderer
+		,(select us.userName from user us where cl.orderer = us.userId) oderName
+		,phone
+		,pay
+		,addPay
+		,living
+		,charge
+		,(select us.userName from user us where cl.charge = us.userId) chargeName
+		,deposit
+		,isIng
+		,address
+		,memo
+		,gatepass
+		,bepass
+		,afpass
+		,orderDate
+		,hopeDate
+		,confirmDate
+		from
+		clean cl
+		where
+		1=1
+		<if test="id > 0">
+			AND cl.id = #{id}
+		</if>
+		<if test="comId !=null and comId !=''">
+			AND cl.comId = #{comId}
+		</if>
+		<if test="husId !=null and husId !=''">
+			AND cl.husId = #{husId}
+		</if>
+		<if test="charge !=null and charge !=''">
+			AND cl.charge = #{charge}
+		</if>
+		<if test="confirmDate !=null and confirmDate !=''">
+			AND ( ( cast(cl.confirmDate as char)   LIKE  CONCAT('%', #{confirmDate}, '%') AND isIng != '100' )
+			   OR ( cast(cl.hopeDate    as char)   LIKE  CONCAT('%', #{confirmDate}, '%') AND isIng  = '100' ) )
+		</if>
+		<if test="isIng !=null and isIng !=''">
+			AND cl.isIng = #{isIng}
+		</if>
+	</select>
+	
+	
+	<select id="getItem" parameterType="java.util.HashMap" resultMap="CleanMap">
+		select
+		id
+		,comId
+		,(select co.comName from company co where cl.comId = co.comId) comName
+		,husId
+		,(select ho.husName from house ho where cl.husId = ho.husId) husName
+		,roomNum
+		,orderer
+		,(select us.userName from user us where cl.orderer = us.userId) oderName
+		,phone
+		,pay
+		,addPay
+		,living
+		,charge
+		,(select us.userName from user us where cl.charge = us.userId) chargeName
+		,deposit
+		,isIng
+		,address
+		,memo
+		,gatepass
+		,bepass
+		,afpass
+		,orderDate
+		,hopeDate
+		,confirmDate
+		from
+		clean cl
+		where
+		cl.id = #{id}
+	</select>
+
+	<insert id="insert" parameterType="Clean">
+		insert into clean
+		(
+			comId
+			,husId
+			,roomNum
+			,orderer
+			,phone
+			,pay
+			,addPay
+			,living
+			,charge
+			,deposit
+			,isIng
+			,address
+			,memo
+			,gatepass
+			,bepass
+			,afpass
+			,orderDate
+			,hopeDate
+			,confirmDate
+		)
+		values
+		(
+			#{comId}
+			,#{husId}
+			,#{roomNum}
+			,#{orderer}
+			,#{phone}
+			,#{pay}
+			,#{addPay}
+			,#{living}
+			,#{charge}
+			,#{deposit}
+			,#{isIng}
+			,#{address}
+			,#{memo}
+			,#{gatepass}
+			,#{bepass}
+			,#{afpass}
+			,SYSDATE()
+			,#{hopeDate}
+			,#{confirmDate}
+		)
+	</insert>
+
+	<update id="update" parameterType="Clean">
+		update clean SET
+		<if test="id > 0">
+			id = #{id}
+		</if>
+		<if test="comId !=null">
+			,comId = #{comId}
+		</if>
+		<if test="husId !=null">
+			,husId = #{husId}
+		</if>
+		<if test="roomNum !=null">
+			,roomNum = #{roomNum}
+		</if>
+		<if test="orderer !=null">
+			,orderer = #{orderer}
+		</if>
+		<if test="phone !=null">
+			,phone = #{phone}
+		</if>
+		<if test="pay > 0">
+			,pay = #{pay}
+		</if>
+		<if test="addPay > 0">
+			,addPay = #{addPay}
+		</if>
+		<if test="living !=null">
+			,living = #{living}
+		</if>
+		<if test="charge !=null">
+			,charge = #{charge}
+		</if>
+		<if test="deposit !=null">
+			,deposit = #{deposit}
+		</if>		
+		<if test="isIng !=null">
+			,isIng = #{isIng}
+		</if>
+		<if test="address !=null">
+			,address = #{address}
+		</if>
+		<if test="memo !=null">
+			,memo = #{memo}
+		</if>
+		<if test="gatepass !=null">
+			,gatepass = #{gatepass}
+		</if>
+		<if test="bepass !=null">
+			,bepass = #{bepass}
+		</if>
+		<if test="afpass !=null">
+			,afpass = #{afpass}
+		</if>
+		<if test="hopeDate !=null">
+			,hopeDate = #{hopeDate}
+		</if>
+		<if test="confirmDate !=null">
+			,confirmDate = #{confirmDate}
+		</if>
+		where
+		id = #{id}
+	</update>
+
+	<delete id="purge" parameterType="Clean">
+		DELETE
+		FROM clean
+		where
+		id = #{id}
+	</delete>
+
+</mapper>
